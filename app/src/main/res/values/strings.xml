@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FeedSense</string>
+    <string name="insert_session_code">Insira o codigo da sessao:</string>
+    <string name="submit_code">Enviar</string>
 </resources>
