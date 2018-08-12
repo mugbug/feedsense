@@ -3,7 +3,6 @@ package com.example.pedro.feedsense.modules.home
 import kotlinx.android.synthetic.main.activity_home.*
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Window
 import com.example.pedro.feedsense.R
 
 class HomeActivity : AppCompatActivity() {
