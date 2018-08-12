@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="@dimen/horizontalMargin"
     android:layout_marginVertical="@dimen/verticalMargin"
-    tools:context=".HomeActivity">
+    tools:context=".modules.home.HomeActivity">
 
     <LinearLayout
         android:id="@+id/code_input"
