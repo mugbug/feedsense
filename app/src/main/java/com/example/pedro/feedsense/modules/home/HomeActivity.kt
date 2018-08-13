@@ -15,6 +15,11 @@ class HomeActivity : AppCompatActivity() {
 
         viewModel = HomeViewModel()
 
+        submit_code_button.setOnClickListener { _ ->
+            val pin = session_code_field.text.toString()
+            viewModel.createSession(pin)
+        }
+
         green_button.setOnClickListener { _ ->
             viewModel.printSomething()
         }
