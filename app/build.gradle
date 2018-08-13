@@ -32,7 +32,9 @@ dependencies {
     // added dependencies
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
 
     // testing
