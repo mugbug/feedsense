@@ -24,4 +24,9 @@ class HomeActivity : AppCompatActivity() {
             viewModel.printSomething()
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.onPause()
+    }
 }

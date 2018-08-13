@@ -14,7 +14,7 @@ class HomeViewModel {
 
     fun createSession(pin: String) {
         val currentTime = Calendar.getInstance().time
-        val sessionModel = SessionModel(pin.toInt(), currentTime, "Pedro Zaroni")
+        val sessionModel = SessionModel(pin, currentTime, "Pedro Zaroni")
 
         disposable = RetrofitInitializer().feedsenseService()
                 .createSession(sessionModel)
@@ -41,5 +41,9 @@ class HomeViewModel {
         sessions?.forEach {
             print("$it")
         }
+    }
+
+    fun onPause() {
+        disposable?.dispose()
     }
 }
