@@ -1,22 +1,48 @@
 package com.example.pedro.feedsense.modules.home
 
+import android.arch.lifecycle.ViewModel
+import com.example.pedro.feedsense.models.Reaction
+import com.example.pedro.feedsense.models.ReactionModel
 import com.example.pedro.feedsense.models.SessionModel
-import com.example.pedro.feedsense.repository.RetrofitInitializer
+import com.example.pedro.feedsense.repository.NetworkServices
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 
-class HomeViewModel {
+class HomeViewModel(val service: NetworkServices): ViewModel() {
 
     var disposable: Disposable? = null
+    private var currentSession: String = ""
+
+    private val guestId = "1020"
+
+    fun joinSession(sessionId: String) {
+
+        disposable = service.feedsenseService()
+                .joinSession(sessionId, guestId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { _ -> joinedSessionWithSuccess(sessionId) },
+                        { error -> joinedSessionWithError(error) }
+                )
+    }
+
+    private fun joinedSessionWithSuccess(sessionId: String) {
+        currentSession = sessionId
+    }
+
+    private fun joinedSessionWithError(error: Any) {
+        print(error)
+    }
 
     fun createSession(pin: String) {
         val currentTime = Calendar.getInstance().time
-        val sessionModel = SessionModel(pin.toInt(), currentTime, "Pedro Zaroni")
+        val sessionModel = SessionModel(pin, currentTime, "Pedro Zaroni")
 
-        disposable = RetrofitInitializer().feedsenseService()
+        disposable = service.feedsenseService()
                 .createSession(sessionModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -26,20 +52,31 @@ class HomeViewModel {
                 )
     }
 
-    fun printSomething() {
-        disposable = RetrofitInitializer().feedsenseService()
-                .listSessions()
+    fun reactToSession(reaction: Reaction) {
+        if (currentSession.isEmpty()) {
+            shouldJoinSession()
+            return
+        }
+        val reactionModel = ReactionModel(currentSession, guestId, reaction)
+        disposable = service.feedsenseService()
+                .reactToSession(currentSession, guestId, reactionModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { result -> printSessions(result)},
-                    { error -> print("Failed to fetch sessions!\n Error: $error")}
+                        { _ -> reactedToSessionWithSuccess() },
+                        { error -> reactedToSessionWithError(error) }
                 )
     }
 
-    private fun printSessions(sessions: List<SessionModel>?) {
-        sessions?.forEach {
-            print("$it")
-        }
+    fun shouldJoinSession() {
+        // show some feedback
+    }
+
+    fun reactedToSessionWithSuccess() {
+        // show some feedback
+    }
+
+    fun reactedToSessionWithError(error: Any) {
+        // show some feedback
     }
 }

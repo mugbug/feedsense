@@ -6,7 +6,11 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitInitializer {
+interface NetworkServices {
+    fun feedsenseService(): FeedsenseService
+}
+
+class RetrofitInitializer: NetworkServices {
 
     val baseUrl: String = "https://api-tcc-rtfs.herokuapp.com/"
 
@@ -17,7 +21,7 @@ class RetrofitInitializer {
             .baseUrl(baseUrl)
             .build()
 
-    fun feedsenseService() = retrofit.create(FeedsenseService::class.java)
+    override fun feedsenseService() = retrofit.create(FeedsenseService::class.java)
 
     fun getLoggin(): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()

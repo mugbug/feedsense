@@ -1,27 +1,46 @@
 package com.example.pedro.feedsense.modules.home
 
 import kotlinx.android.synthetic.main.activity_home.*
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import org.koin.android.architecture.ext.viewModel
 import com.example.pedro.feedsense.R
+import com.example.pedro.feedsense.models.Reaction
+import com.example.pedro.feedsense.modules.BaseActivity
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
 
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel by viewModel<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+    }
 
-        viewModel = HomeViewModel()
+    @Suppress("UNUSED_PARAMETER")
+    fun didTapCreateSession(view: View) {
+        val pin = session_code_field.text.toString()
+        viewModel.createSession(pin)
+    }
 
-        submit_code_button.setOnClickListener { _ ->
-            val pin = session_code_field.text.toString()
-            viewModel.createSession(pin)
-        }
+    @Suppress("UNUSED_PARAMETER")
+    fun didTapJoinSession(view: View) {
+        val pin = session_code_field.text.toString()
+        viewModel.joinSession(pin)
+    }
 
-        green_button.setOnClickListener { _ ->
-            viewModel.printSomething()
-        }
+    fun didTapGreenButton(view: View) {
+        val reaction = Reaction.LOVING
+        viewModel.reactToSession(reaction)
+    }
+
+    fun didTapYellowButton(view: View) {
+        val reaction = Reaction.WHATEVER
+        viewModel.reactToSession(reaction)
+    }
+
+    fun didTapRedButton(view: View) {
+        val reaction = Reaction.HATING
+        viewModel.reactToSession(reaction)
     }
 }

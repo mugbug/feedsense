@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/submit_code_button"
+        app:layout_constraintBottom_toTopOf="@id/join_session_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -33,10 +33,20 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/submit_code_button"
+        android:id="@+id/create_session_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/submit_code"
+        android:onClick="didTapCreateSession"
+        app:layout_constraintTop_toTopOf="@id/join_session_button"
+        app:layout_constraintEnd_toStartOf="@id/join_session_button"/>
+
+    <Button
+        android:id="@+id/join_session_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/join_session"
+        android:onClick="didTapJoinSession"
         app:layout_constraintTop_toBottomOf="@id/code_input"
         app:layout_constraintBottom_toTopOf="@id/green_button"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -48,7 +58,8 @@
         android:background="@color/green"
         android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
         android:layout_marginTop="@dimen/verticalMargin"
-        app:layout_constraintTop_toBottomOf="@id/submit_code_button"
+        android:onClick="didTapGreenButton"
+        app:layout_constraintTop_toBottomOf="@id/join_session_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/yellow_button"/>
@@ -59,6 +70,7 @@
         android:layout_height="0dp"
         android:background="@color/yellow"
         android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
+        android:onClick="didTapYellowButton"
         app:layout_constraintTop_toTopOf="@id/green_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/green_button"
@@ -70,6 +82,7 @@
         android:layout_height="0dp"
         android:background="@color/red"
         android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
+        android:onClick="didTapRedButton"
         app:layout_constraintTop_toTopOf="@id/green_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/yellow_button"
