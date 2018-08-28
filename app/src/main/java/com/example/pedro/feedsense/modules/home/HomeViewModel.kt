@@ -5,7 +5,6 @@ import com.example.pedro.feedsense.models.Reaction
 import com.example.pedro.feedsense.models.ReactionModel
 import com.example.pedro.feedsense.models.SessionModel
 import com.example.pedro.feedsense.repository.NetworkServices
-import com.example.pedro.feedsense.repository.RetrofitInitializer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

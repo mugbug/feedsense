@@ -11,12 +11,10 @@ import com.example.pedro.feedsense.modules.BaseActivity
 class HomeActivity : BaseActivity() {
 
     private val viewModel by viewModel<HomeViewModel>()
-    //lateinit var viewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        //viewModel = HomeViewModel()
     }
 
     @Suppress("UNUSED_PARAMETER")
