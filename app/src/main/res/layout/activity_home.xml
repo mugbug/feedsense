@@ -1,91 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginHorizontal="@dimen/horizontalMargin"
-    android:layout_marginVertical="@dimen/verticalMargin"
-    tools:context=".modules.home.HomeActivity">
+    xmlns:bind="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:id="@+id/code_input"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/join_session_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.pedro.feedsense.modules.home.HomeActivity" />
+    </data>
 
-        <TextView
-            android:id="@+id/session_code_label"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/horizontalMargin"
+        android:layout_marginVertical="@dimen/verticalMargin">
+
+        <LinearLayout
+            android:id="@+id/user_session"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/code_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/session_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sessao atual:"
+                android:foregroundTint="@color/primaryText"/>
+
+            <TextView
+                android:id="@+id/current_session"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.currentSession}"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/code_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="@id/user_session"
+            app:layout_constraintBottom_toTopOf="@id/join_session_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/session_code_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/insert_session_code"
+                android:foregroundTint="@color/primaryText"/>
+
+            <EditText
+                android:id="@+id/session_code_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/create_session_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/insert_session_code"
-            android:foregroundTint="@color/primaryText"/>
+            android:text="@string/submit_code"
+            android:onClick="didTapCreateSession"
+            app:layout_constraintTop_toTopOf="@id/join_session_button"
+            app:layout_constraintEnd_toStartOf="@id/join_session_button"/>
 
-        <EditText
-            android:id="@+id/session_code_field"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/join_session_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="1"/>
-    </LinearLayout>
+            android:text="@string/join_session"
+            android:onClick="didTapJoinSession"
+            app:layout_constraintTop_toBottomOf="@id/code_input"
+            app:layout_constraintBottom_toTopOf="@id/green_button"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
-        android:id="@+id/create_session_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/submit_code"
-        android:onClick="didTapCreateSession"
-        app:layout_constraintTop_toTopOf="@id/join_session_button"
-        app:layout_constraintEnd_toStartOf="@id/join_session_button"/>
+        <Button
+            android:id="@+id/green_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/green"
+            android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
+            android:layout_marginTop="@dimen/verticalMargin"
+            android:onClick="didTapGreenButton"
+            app:layout_constraintTop_toBottomOf="@id/join_session_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/yellow_button"/>
 
-    <Button
-        android:id="@+id/join_session_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/join_session"
-        android:onClick="didTapJoinSession"
-        app:layout_constraintTop_toBottomOf="@id/code_input"
-        app:layout_constraintBottom_toTopOf="@id/green_button"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <Button
+            android:id="@+id/yellow_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/yellow"
+            android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
+            android:onClick="didTapYellowButton"
+            app:layout_constraintTop_toTopOf="@id/green_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/green_button"
+            app:layout_constraintRight_toLeftOf="@id/red_button"/>
 
-    <Button
-        android:id="@+id/green_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/green"
-        android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
-        android:layout_marginTop="@dimen/verticalMargin"
-        android:onClick="didTapGreenButton"
-        app:layout_constraintTop_toBottomOf="@id/join_session_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/yellow_button"/>
+        <Button
+            android:id="@+id/red_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/red"
+            android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
+            android:onClick="didTapRedButton"
+            app:layout_constraintTop_toTopOf="@id/green_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/yellow_button"
+            app:layout_constraintRight_toRightOf="parent"/>
 
-    <Button
-        android:id="@+id/yellow_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/yellow"
-        android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
-        android:onClick="didTapYellowButton"
-        app:layout_constraintTop_toTopOf="@id/green_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/green_button"
-        app:layout_constraintRight_toLeftOf="@id/red_button"/>
-
-    <Button
-        android:id="@+id/red_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/red"
-        android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
-        android:onClick="didTapRedButton"
-        app:layout_constraintTop_toTopOf="@id/green_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/yellow_button"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>

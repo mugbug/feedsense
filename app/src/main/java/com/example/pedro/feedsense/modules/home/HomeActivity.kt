@@ -1,12 +1,14 @@
 package com.example.pedro.feedsense.modules.home
 
-import android.app.AlertDialog
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.activity_home.*
 import android.os.Bundle
 import android.view.View
 import org.koin.android.architecture.ext.viewModel
 import com.example.pedro.feedsense.R
+import com.example.pedro.feedsense.databinding.ActivityHomeBinding
 import com.example.pedro.feedsense.models.Reaction
 import com.example.pedro.feedsense.modules.BaseActivity
 
@@ -17,6 +19,8 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        // val binding = DataBindingUtil.setContentView<ActivityHomeBinding>(this, R.layout.activity_home)
 
         setupObservers()
     }
