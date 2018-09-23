@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="viewModel"
-            type="com.example.pedro.feedsense.modules.home.HomeActivity" />
+            type="com.example.pedro.feedsense.modules.home.HomeViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/horizontalMargin"
-        android:layout_marginVertical="@dimen/verticalMargin">
+        android:layout_marginVertical="@dimen/verticalMargin"
+        tools:context=".modules.home.HomeActivity">
 
         <LinearLayout
             android:id="@+id/user_session"
@@ -29,14 +31,15 @@
                 android:id="@+id/session_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sessao atual:"
+                android:text="Sessao atual: "
                 android:foregroundTint="@color/primaryText"/>
 
             <TextView
                 android:id="@+id/current_session"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.currentSession}"/>
+                android:text="@{viewModel.currentSession}"
+                tools:text="-"/>
 
         </LinearLayout>
 
@@ -45,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="@id/user_session"
+            app:layout_constraintTop_toBottomOf="@id/user_session"
             app:layout_constraintBottom_toTopOf="@id/join_session_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">

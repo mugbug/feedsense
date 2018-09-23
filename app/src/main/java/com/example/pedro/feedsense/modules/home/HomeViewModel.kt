@@ -1,6 +1,7 @@
 package com.example.pedro.feedsense.modules.home
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.Bindable
 import android.databinding.ObservableField
@@ -16,13 +17,14 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 
-class HomeViewModel(val service: NetworkServices): ViewModel() {
+class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
-    var disposable: Disposable? = null
+    private var disposable: Disposable? = null
     private val guestId = "pedro@zaroni.com"
 
-
-    var currentSession = ObservableField("")
+    private val _currentSession = MutableLiveData<String>()
+    var currentSession: LiveData<String> = _currentSession
+        get() = _currentSession
 
     // Activity Events
     private val _showAlert = SingleLiveEvent<Alert>()
@@ -32,6 +34,10 @@ class HomeViewModel(val service: NetworkServices): ViewModel() {
     private val _showToast = SingleLiveEvent<String>()
     val showToast: LiveData<String>
         get() = _showToast
+
+    init {
+        _currentSession.value = "-"
+    }
 
     fun joinSession(sessionId: String) {
 
@@ -46,7 +52,7 @@ class HomeViewModel(val service: NetworkServices): ViewModel() {
     }
 
     private fun treatJoinSessionWithSuccess(sessionId: String) {
-        currentSession = sessionId
+        _currentSession.value = sessionId
         val alert = Alert("Sucesso!", "Voce se conectou a sessao $sessionId", "Ok")
         _showAlert.value = alert
         _showAlert.call()
@@ -85,11 +91,11 @@ class HomeViewModel(val service: NetworkServices): ViewModel() {
     }
 
     fun reactToSession(reaction: Reaction) {
-        if (currentSession.isEmpty()) {
+        if ((_currentSession.value ?: "").isEmpty()) {
             shouldJoinSession()
             return
         }
-        val reactionModel = ReactionModel(currentSession, guestId, reaction)
+        val reactionModel = ReactionModel(_currentSession.value ?: "", guestId, reaction)
         disposable = service.feedsenseService()
                 .reactToSession(reactionModel)
                 .subscribeOn(Schedulers.io())

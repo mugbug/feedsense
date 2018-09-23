@@ -1,7 +1,6 @@
 package com.example.pedro.feedsense.modules.home
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.activity_home.*
 import android.os.Bundle
@@ -20,7 +19,12 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // val binding = DataBindingUtil.setContentView<ActivityHomeBinding>(this, R.layout.activity_home)
+        val binding = DataBindingUtil.setContentView<ActivityHomeBinding>(
+                this,
+                R.layout.activity_home
+        )
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
 
         setupObservers()
     }
