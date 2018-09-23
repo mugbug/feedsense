@@ -39,6 +39,8 @@ dependencies {
 
     implementation "org.koin:koin-android-architecture:$koin_version"
     implementation "android.arch.lifecycle:viewmodel:$aac_version"
+    implementation "android.arch.lifecycle:livedata:$livedata_version"
+
 
     // testing
     testImplementation 'junit:junit:4.12'

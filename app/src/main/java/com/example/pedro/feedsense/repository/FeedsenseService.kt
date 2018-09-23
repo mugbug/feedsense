@@ -14,8 +14,6 @@ interface FeedsenseService {
     fun joinSession(@Path("sessionId") sessionId: String,
                     @Path("guestId") guestId: String): Observable<Any>
 
-    @POST("comments/{sessionId}/{guestId}")
-    fun reactToSession(@Path("sessionId") sessionId: String,
-                       @Path("guestId") guestId: String,
-                       @Body reaction: ReactionModel): Observable<String>
+    @POST("comments")
+    fun reactToSession(@Body reaction: ReactionModel): Observable<String>
 }

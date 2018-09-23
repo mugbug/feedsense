@@ -3,6 +3,7 @@ package com.example.pedro.feedsense.modules
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseActivity : AppCompatActivity() {
@@ -34,5 +35,9 @@ open class BaseActivity : AppCompatActivity() {
         builder.setCancelable(isCancelable)
         simpleDialog = builder.create()
         simpleDialog?.show()
+    }
+
+    fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

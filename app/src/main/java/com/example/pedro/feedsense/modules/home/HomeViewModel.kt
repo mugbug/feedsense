@@ -1,6 +1,9 @@
 package com.example.pedro.feedsense.modules.home
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import com.example.pedro.feedsense.SingleLiveEvent
+import com.example.pedro.feedsense.models.Alert
 import com.example.pedro.feedsense.models.Reaction
 import com.example.pedro.feedsense.models.ReactionModel
 import com.example.pedro.feedsense.models.SessionModel
@@ -15,8 +18,16 @@ class HomeViewModel(val service: NetworkServices): ViewModel() {
 
     var disposable: Disposable? = null
     private var currentSession: String = ""
+    private val guestId = "pedro@zaroni.com"
 
-    private val guestId = "1020"
+    // Activity observables
+    private val _showAlert = SingleLiveEvent<Alert>()
+    val showAlert: LiveData<Alert>
+        get() = _showAlert
+
+    private val _showToast = SingleLiveEvent<String>()
+    val showToast: LiveData<String>
+        get() = _showToast
 
     fun joinSession(sessionId: String) {
 
@@ -32,24 +43,42 @@ class HomeViewModel(val service: NetworkServices): ViewModel() {
 
     private fun joinedSessionWithSuccess(sessionId: String) {
         currentSession = sessionId
+        val alert = Alert("Sucesso!", "Voce se conectou a sessao $sessionId", "Ok")
+        _showAlert.value = alert
+        _showAlert.call()
     }
 
-    private fun joinedSessionWithError(error: Any) {
+    private fun joinedSessionWithError(error: Throwable?) {
         print(error)
+        val alert = Alert("Ops!", "Algo deu errado!\n" + error?.message, "Ok")
+        _showAlert.value = alert
+        _showAlert.call()
     }
 
-    fun createSession(pin: String) {
+    fun createSession(sessionId: String) {
         val currentTime = Calendar.getInstance().time
-        val sessionModel = SessionModel(pin, currentTime, "Pedro Zaroni")
+        val sessionModel = SessionModel(sessionId, currentTime, "Pedro Zaroni")
 
         disposable = service.feedsenseService()
                 .createSession(sessionModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { result -> print("Session created\n $result") },
-                    { error -> print("Failed to create session!\n Error: $error")}
+                    { _ -> treatCreateSessionWithSuccess(sessionId)},
+                    { error -> treatCreateSessionWithFailure(error)}
                 )
+    }
+
+    private fun treatCreateSessionWithFailure(error: Throwable?) {
+        val alert = Alert("Ops!", "Algo deu errado!\n" + error?.message, "Ok")
+        _showAlert.value = alert
+        _showAlert.call()
+    }
+
+    private fun treatCreateSessionWithSuccess(sessionId: String) {
+        val alert = Alert("Sucesso!", "Sessao $sessionId criada com sucesso!", "Ok")
+        _showAlert.value = alert
+        _showAlert.call()
     }
 
     fun reactToSession(reaction: Reaction) {
@@ -59,7 +88,7 @@ class HomeViewModel(val service: NetworkServices): ViewModel() {
         }
         val reactionModel = ReactionModel(currentSession, guestId, reaction)
         disposable = service.feedsenseService()
-                .reactToSession(currentSession, guestId, reactionModel)
+                .reactToSession(reactionModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -73,10 +102,12 @@ class HomeViewModel(val service: NetworkServices): ViewModel() {
     }
 
     fun reactedToSessionWithSuccess() {
-        // show some feedback
+        _showToast.value = "Reaçao enviada!"
+        _showToast.call()
     }
 
-    fun reactedToSessionWithError(error: Any) {
-        // show some feedback
+    fun reactedToSessionWithError(error: Throwable?) {
+        _showToast.value = "Oops! Algo deu errado!"
+        _showToast.call()
     }
 }
