@@ -10,7 +10,7 @@
             type="com.example.pedro.feedsense.modules.home.HomeViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/horizontalMargin"
@@ -123,5 +123,5 @@
             app:layout_constraintLeft_toRightOf="@id/yellow_button"
             app:layout_constraintRight_toRightOf="parent"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
