@@ -54,21 +54,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
-                android:hint="digite seu email" />
+                android:textColor="@color/white"
+                android:hint="digite seu email"
+                android:inputType="textEmailAddress"/>
 
             <EditText
                 android:id="@+id/password_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
-                android:hint="digite sua senha" />
+                android:textColor="@color/white"
+                android:hint="digite sua senha"
+                android:inputType="textPassword"/>
 
             <EditText
                 android:id="@+id/password_check_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
+                android:textColor="@color/white"
                 android:hint="confirme sua senha"
+                android:inputType="textPassword"
                 android:visibility="gone" />
 
             <LinearLayout
@@ -87,7 +93,6 @@
                     android:layout_weight="0.8"
                     android:layout_height="wrap_content"
                     android:background="@drawable/secondary_button"
-                    android:textColor="@color/primaryText"
                     android:onClick="didTapBackToLogin"
                     android:text="Voltar" />
 
@@ -96,7 +101,6 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.8"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primaryText"
                     android:background="@drawable/primary_button"
                     android:layout_gravity="end"
                     android:text="Cadastrar" />
@@ -107,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
-                android:background="@drawable/secondary_button"
+                android:background="@drawable/primary_button"
                 android:onClick="didTapLogin"
                 android:text="Entrar" />
 
@@ -142,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ainda nao tenho cadastro"
-                android:background="@color/transparent"
+                android:background="@drawable/secondary_button"
                 android:onClick="didTapRegister"/>
 
             <Button
@@ -150,7 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="entrar como visitante"
-                android:background="@color/transparent"/>
+                android:background="@drawable/secondary_button"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
