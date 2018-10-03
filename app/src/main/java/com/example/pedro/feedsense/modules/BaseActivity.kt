@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import com.example.pedro.feedsense.R
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseActivity : AppCompatActivity() {
@@ -28,7 +29,7 @@ open class BaseActivity : AppCompatActivity() {
     protected fun showSimpleDialog(title: String, message: String, buttonText: String,
                                    isCancelable: Boolean = true, clickListener: DialogInterface.OnClickListener) {
         simpleDialog?.dismiss()
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setPositiveButton(buttonText, clickListener)

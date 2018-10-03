@@ -17,9 +17,7 @@ import android.content.Intent
 import com.squareup.picasso.Picasso
 import android.view.WindowManager
 import com.example.pedro.feedsense.modules.home.HomeActivity
-
-
-enum class SlideDirection { LEFT, RIGHT, UP, DOWN }
+import kotlinx.android.synthetic.main.activity_home.*
 
 class LoginActivity: BaseActivity() {
 
@@ -47,75 +45,71 @@ class LoginActivity: BaseActivity() {
                 .into(background_image)
     }
 
-    private fun slide(direction: SlideDirection, view: View, completion: (() -> Unit)? = null) {
-        val translX = when(direction) {
-            SlideDirection.RIGHT -> view.width.toFloat()
-            SlideDirection.LEFT -> -view.width.toFloat()
-            else -> 0.0f
-        }
-
-        val translY = when(direction) {
-            SlideDirection.UP -> view.height.toFloat()
-            SlideDirection.DOWN -> -view.height.toFloat()
-            else -> 0.0f
-        }
-
-        view.animate()
-                .translationX(translX)
-                .translationY(translY)
-                .setDuration(500)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        super.onAnimationEnd(animation)
-                        completion?.invoke()
-                    }
-                })
-    }
-
-    fun fade(alpha: Float, view: View, completion: (() -> Unit)? = null) {
-        view.animate()
-                .alpha(alpha)
-                .setDuration(500)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        super.onAnimationEnd(animation)
-                        completion?.invoke()
-                    }
-                })
-
-    }
-
     fun didTapLogin(view: View) {
         // switch login button to loading
+        // call presenter to do request
+        showHomeScreen()
+    }
+
+    fun showHomeScreen() {
         val intent = Intent(this, HomeActivity::class.java)
+//        finish()
         startActivity(intent)
     }
 
     fun didTapRegister(view: View) {
-        slide(SlideDirection.LEFT, login_button) {
-            login_button.visibility = View.GONE
-            login_button.clearAnimation()
-            password_check_field.visibility = View.VISIBLE
-            register_buttons_layout.visibility = View.VISIBLE
-        }
-        fade(0.0f, start_register_button) {
-            start_register_button.visibility = View.GONE
-            start_register_button
-        }
+        showRegisterFields()
     }
 
     fun didTapBackToLogin(view: View) {
-        fade(1.0f, start_register_button) {
-            start_register_button.visibility = View.VISIBLE
-        }
-        slide(SlideDirection.RIGHT, password_check_field)
-        slide(SlideDirection.RIGHT, register_buttons_layout) {
-            login_button.visibility = View.VISIBLE
+        showLoginFields()
+    }
 
-            password_check_field.visibility = View.GONE
-            password_check_field.clearAnimation()
-            register_buttons_layout.visibility = View.GONE
-            register_buttons_layout.clearAnimation()
-        }
+    fun didTapWannaJoinAsGuest(view: View) {
+        showJoinAsGuestFields()
+    }
+
+    fun showJoinAsGuestFields() {
+        login_fields_title.text = "Entrar como visitante"
+        login_fields_title.visibility = View.VISIBLE
+        email_field.visibility = View.GONE
+        password_field.visibility = View.GONE
+        password_check_field.visibility = View.GONE
+        session_id_field.visibility = View.VISIBLE
+        login_button.visibility = View.GONE
+        alt_buttons_layout.visibility = View.VISIBLE
+        register_button.visibility = View.GONE
+        join_session_button.visibility = View.VISIBLE
+        start_register_button.visibility = View.VISIBLE
+        join_as_guest_button.visibility = View.GONE
+    }
+
+    fun showRegisterFields() {
+        login_fields_title.text = "Ainda nao tem cadastro?"
+        login_fields_title.visibility = View.VISIBLE
+        email_field.visibility = View.VISIBLE
+        password_field.visibility = View.VISIBLE
+        password_check_field.visibility = View.VISIBLE
+        session_id_field.visibility = View.GONE
+        login_button.visibility = View.GONE
+        alt_buttons_layout.visibility = View.VISIBLE
+        register_button.visibility = View.VISIBLE
+        join_session_button.visibility = View.GONE
+        start_register_button.visibility = View.GONE
+        join_as_guest_button.visibility = View.VISIBLE
+    }
+
+    fun showLoginFields() {
+        login_fields_title.visibility = View.GONE
+        email_field.visibility = View.VISIBLE
+        password_field.visibility = View.VISIBLE
+        password_check_field.visibility = View.GONE
+        session_id_field.visibility = View.GONE
+        login_button.visibility = View.VISIBLE
+        alt_buttons_layout.visibility = View.GONE
+        register_button.visibility = View.GONE
+        join_session_button.visibility = View.GONE
+        start_register_button.visibility = View.VISIBLE
+        join_as_guest_button.visibility = View.VISIBLE
     }
 }

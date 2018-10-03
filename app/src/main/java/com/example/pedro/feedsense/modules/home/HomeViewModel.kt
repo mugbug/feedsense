@@ -34,6 +34,10 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
     val showToast: LiveData<String>
         get() = _showToast
 
+    private val _hideJoinSessionFields = SingleLiveEvent<Void>()
+    val hideJoinSessionFields: LiveData<Void>
+        get() = _hideJoinSessionFields
+
     init {
         _currentSession.value = "-"
     }
@@ -55,6 +59,7 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
         val alert = Alert("Sucesso!", "Voce se conectou a sessao $sessionId", "Ok")
         _showAlert.value = alert
         _showAlert.call()
+        _hideJoinSessionFields.call()
     }
 
     private fun treatJoinSessionWithFailure(error: Throwable?) {

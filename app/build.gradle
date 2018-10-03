@@ -7,7 +7,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.pedro.feedsense"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -16,7 +16,8 @@ android {
     buildTypes {
 
         debug {
-            buildConfigField 'String', 'BASE_URL', '"http://127.0.0.1:3000/"'
+            buildConfigField 'String', 'BASE_URL', '"https://api-tcc-rtfs.herokuapp.com/"'
+//            buildConfigField 'String', 'BASE_URL', '"http://127.0.0.1:3000/"'
         }
 
         release {
@@ -52,6 +53,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.github.clans:fab:1.6.4'
+    implementation 'com.android.support:support-compat:28'
+
 
     // testing
     testImplementation 'junit:junit:4.12'

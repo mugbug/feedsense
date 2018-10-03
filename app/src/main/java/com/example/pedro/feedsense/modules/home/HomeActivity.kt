@@ -41,6 +41,10 @@ class HomeActivity : BaseActivity() {
                 showToast(it)
             }
         })
+
+        viewModel.hideJoinSessionFields.observe(this, Observer {
+            shouldHideJoinSessionFields()
+        })
     }
 
     // Actions
@@ -51,11 +55,19 @@ class HomeActivity : BaseActivity() {
 //        viewModel.createSession(pin)
 //    }
 //
-//    @Suppress("UNUSED_PARAMETER")
-//    fun didTapJoinSession(view: View) {
-//        val pin = session_code_field.text.toString()
-//        viewModel.joinSession(pin)
-//    }
+    fun didTapWannaJoinSession(view: View) {
+        join_session_fields.visibility = View.VISIBLE
+    }
+
+    fun shouldHideJoinSessionFields() {
+
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun didTapJoinSession(view: View) {
+        val pin = session_code_field.text.toString()
+        viewModel.joinSession(pin)
+    }
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapGreenButton(view: View) {
