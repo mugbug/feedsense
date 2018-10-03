@@ -1,5 +1,6 @@
 package com.example.pedro.feedsense.repository
 
+import com.example.pedro.feedsense.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,24 +13,24 @@ interface NetworkServices {
 
 class RetrofitInitializer: NetworkServices {
 
-    val baseUrl: String = "https://api-tcc-rtfs.herokuapp.com/"
+    private val baseUrl: String = BuildConfig.BASE_URL
 
-    val retrofit = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(getHttpClient().build())
             .baseUrl(baseUrl)
             .build()
 
-    override fun feedsenseService() = retrofit.create(FeedsenseService::class.java)
+    override fun feedsenseService(): FeedsenseService = retrofit.create(FeedsenseService::class.java)
 
-    fun getLoggin(): HttpLoggingInterceptor {
+    private fun getLoggin(): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
         return logging
     }
 
-    fun getHttpClient(): OkHttpClient.Builder {
+    private fun getHttpClient(): OkHttpClient.Builder {
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(getLoggin())
         return httpClient
