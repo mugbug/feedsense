@@ -90,7 +90,7 @@
                 <Button
                     android:id="@+id/back_to_login_button"
                     android:layout_width="0dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@drawable/secondary_button"
                     android:onClick="didTapBackToLogin"
@@ -99,7 +99,7 @@
                 <Button
                     android:id="@+id/register_button"
                     android:layout_width="0dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@drawable/primary_button"
                     android:layout_gravity="end"

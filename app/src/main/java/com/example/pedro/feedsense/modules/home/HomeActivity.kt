@@ -45,17 +45,17 @@ class HomeActivity : BaseActivity() {
 
     // Actions
 
-    @Suppress("UNUSED_PARAMETER")
-    fun didTapCreateSession(view: View) {
-        val pin = session_code_field.text.toString()
-        viewModel.createSession(pin)
-    }
-
-    @Suppress("UNUSED_PARAMETER")
-    fun didTapJoinSession(view: View) {
-        val pin = session_code_field.text.toString()
-        viewModel.joinSession(pin)
-    }
+//    @Suppress("UNUSED_PARAMETER")
+//    fun didTapCreateSession(view: View) {
+//        val pin = session_code_field.text.toString()
+//        viewModel.createSession(pin)
+//    }
+//
+//    @Suppress("UNUSED_PARAMETER")
+//    fun didTapJoinSession(view: View) {
+//        val pin = session_code_field.text.toString()
+//        viewModel.joinSession(pin)
+//    }
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapGreenButton(view: View) {

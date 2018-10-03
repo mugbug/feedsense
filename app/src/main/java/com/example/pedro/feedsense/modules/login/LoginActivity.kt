@@ -13,9 +13,10 @@ import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Intent
 import com.squareup.picasso.Picasso
 import android.view.WindowManager
-
+import com.example.pedro.feedsense.modules.home.HomeActivity
 
 
 enum class SlideDirection { LEFT, RIGHT, UP, DOWN }
@@ -86,6 +87,8 @@ class LoginActivity: BaseActivity() {
 
     fun didTapLogin(view: View) {
         // switch login button to loading
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
     }
 
     fun didTapRegister(view: View) {
