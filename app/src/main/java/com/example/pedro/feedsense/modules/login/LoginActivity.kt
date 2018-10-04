@@ -7,17 +7,11 @@ import com.example.pedro.feedsense.databinding.ActivityLoginBinding
 import com.example.pedro.feedsense.modules.BaseActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.architecture.ext.viewModel
-import android.opengl.ETC1.getHeight
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import com.squareup.picasso.Picasso
 import android.view.WindowManager
 import com.example.pedro.feedsense.modules.home.HomeActivity
-import kotlinx.android.synthetic.main.activity_home.*
 
 class LoginActivity: BaseActivity() {
 
