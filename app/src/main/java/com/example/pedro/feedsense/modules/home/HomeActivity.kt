@@ -1,15 +1,15 @@
 package com.example.pedro.feedsense.modules.home
 
-import android.arch.lifecycle.Observer
-import android.databinding.DataBindingUtil
-import kotlinx.android.synthetic.main.activity_home.*
+import androidx.lifecycle.Observer
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
-import org.koin.android.architecture.ext.viewModel
 import com.example.pedro.feedsense.R
 import com.example.pedro.feedsense.databinding.ActivityHomeBinding
 import com.example.pedro.feedsense.models.Reaction
 import com.example.pedro.feedsense.modules.BaseActivity
+import kotlinx.android.synthetic.main.activity_home.*
+import org.koin.android.architecture.ext.viewModel
 
 class HomeActivity : BaseActivity() {
 
@@ -41,14 +41,26 @@ class HomeActivity : BaseActivity() {
                 showToast(it)
             }
         })
+
+        viewModel.hideJoinSessionFields.observe(this, Observer {
+            shouldHideJoinSessionFields()
+        })
     }
 
     // Actions
 
-    @Suppress("UNUSED_PARAMETER")
-    fun didTapCreateSession(view: View) {
-        val pin = session_code_field.text.toString()
-        viewModel.createSession(pin)
+//    @Suppress("UNUSED_PARAMETER")
+//    fun didTapCreateSession(view: View) {
+//        val pin = session_code_field.text.toString()
+//        viewModel.createSession(pin)
+//    }
+//
+    fun didTapWannaJoinSession(view: View) {
+        join_session_fields.visibility = View.VISIBLE
+    }
+
+    fun shouldHideJoinSessionFields() {
+
     }
 
     @Suppress("UNUSED_PARAMETER")

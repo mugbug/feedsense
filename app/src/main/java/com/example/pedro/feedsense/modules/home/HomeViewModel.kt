@@ -1,10 +1,10 @@
 package com.example.pedro.feedsense.modules.home
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.databinding.Bindable
-import android.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import com.example.pedro.feedsense.SingleLiveEvent
 import com.example.pedro.feedsense.models.Alert
 import com.example.pedro.feedsense.models.Reaction
@@ -15,7 +15,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
-
 
 class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
@@ -34,6 +33,10 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private val _showToast = SingleLiveEvent<String>()
     val showToast: LiveData<String>
         get() = _showToast
+
+    private val _hideJoinSessionFields = SingleLiveEvent<Void>()
+    val hideJoinSessionFields: LiveData<Void>
+        get() = _hideJoinSessionFields
 
     init {
         _currentSession.value = "-"
@@ -56,6 +59,7 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
         val alert = Alert("Sucesso!", "Voce se conectou a sessao $sessionId", "Ok")
         _showAlert.value = alert
         _showAlert.call()
+        _hideJoinSessionFields.call()
     }
 
     private fun treatJoinSessionWithFailure(error: Throwable?) {

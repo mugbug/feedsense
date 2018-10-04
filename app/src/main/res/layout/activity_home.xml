@@ -10,118 +10,155 @@
             type="com.example.pedro.feedsense.modules.home.HomeViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/horizontalMargin"
-        android:layout_marginVertical="@dimen/verticalMargin"
+        android:background="@color/primaryText"
         tools:context=".modules.home.HomeActivity">
 
         <LinearLayout
-            android:id="@+id/user_session"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/code_input"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true">
 
-            <TextView
-                android:id="@+id/session_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sessao atual: "
-                android:foregroundTint="@color/primaryText"/>
-
-            <TextView
-                android:id="@+id/current_session"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.currentSession}"
-                tools:text="-"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/code_input"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/user_session"
-            app:layout_constraintBottom_toTopOf="@id/join_session_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
-                android:id="@+id/session_code_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/insert_session_code"
-                android:foregroundTint="@color/primaryText"/>
-
-            <EditText
-                android:id="@+id/session_code_field"
+            <LinearLayout
+                android:id="@+id/user_session"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="1"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                android:animateLayoutChanges="true"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/session_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:text="Sessao atual: "/>
+
+                <TextView
+                    android:id="@+id/current_session"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:text="@{viewModel.currentSession}"
+                    tools:text="-"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/join_session_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="30dp"
+                android:layout_marginHorizontal="@dimen/horizontalMargin"
+                android:weightSum="2"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/session_code_field"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="10dp"
+                    android:hint="digite o numero da sessao"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="0.7"
+                    android:layout_height="wrap_content"
+                    android:text="Conectar"
+                    android:background="@drawable/primary_button"
+                    android:onClick="didTapJoinSession"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/reaction_buttons"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/verticalMargin"
+                android:layout_marginHorizontal="@dimen/horizontalMargin"
+                android:weightSum="3"
+                android:visibility="gone">
+
+                <ImageButton
+                    android:id="@+id/green_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp"
+                    android:background="@color/transparent"
+                    android:tint="@color/green"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/thumbs_up_icon"
+                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
+                    android:onClick="didTapGreenButton"/>
+
+                <ImageButton
+                    android:id="@+id/yellow_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp"
+                    android:background="@color/transparent"
+                    android:tint="@color/yellow"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/thumbs_up_down_icon"
+                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
+                    android:onClick="didTapYellowButton"/>
+
+                <ImageButton
+                    android:id="@+id/red_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp"
+                    android:background="@color/transparent"
+                    android:tint="@color/red"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/thumb_down_icon"
+                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
+                    android:onClick="didTapRedButton"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/create_session_button"
+        <com.github.clans.fab.FloatingActionMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/submit_code"
-            android:onClick="didTapCreateSession"
-            app:layout_constraintTop_toTopOf="@id/join_session_button"
-            app:layout_constraintEnd_toStartOf="@id/join_session_button"/>
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            app:menu_colorNormal="@color/red"
+            app:menu_colorPressed="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
-            android:id="@+id/join_session_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/join_session"
-            android:onClick="didTapJoinSession"
-            app:layout_constraintTop_toBottomOf="@id/code_input"
-            app:layout_constraintBottom_toTopOf="@id/green_button"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/add_icon"
+                app:fab_colorNormal="@color/green"
+                app:fab_colorPressed="@color/green"
+                app:fab_colorRipple="@color/green"
+                app:fab_size="mini"
+                app:fab_label="Criar nova sessao"/>
 
-        <Button
-            android:id="@+id/green_button"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/green"
-            android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
-            android:layout_marginTop="@dimen/verticalMargin"
-            android:onClick="didTapGreenButton"
-            app:layout_constraintTop_toBottomOf="@id/join_session_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/yellow_button"/>
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/power_icon"
+                app:fab_colorNormal="@color/yellow"
+                app:fab_colorPressed="@color/yellow"
+                app:fab_colorRipple="@color/yellow"
+                app:fab_size="mini"
+                app:fab_label="Entrar em uma sessao"
+                android:onClick="didTapWannaJoinSession"/>
 
-        <Button
-            android:id="@+id/yellow_button"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/yellow"
-            android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
-            android:onClick="didTapYellowButton"
-            app:layout_constraintTop_toTopOf="@id/green_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/green_button"
-            app:layout_constraintRight_toLeftOf="@id/red_button"/>
+        </com.github.clans.fab.FloatingActionMenu>
 
-        <Button
-            android:id="@+id/red_button"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/red"
-            android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
-            android:onClick="didTapRedButton"
-            app:layout_constraintTop_toTopOf="@id/green_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/yellow_button"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

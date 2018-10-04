@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.pedro.feedsense.modules.login.LoginViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".modules.login.LoginActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/darkTeal">
+
+            <ImageView
+                android:id="@+id/background_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground="@drawable/background_gradient"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FeedSense"
+                android:textSize="50sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/lato_light"
+                android:layout_marginBottom="30dp"
+                android:gravity="center_horizontal"
+                app:layout_constraintBottom_toTopOf="@id/fields_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/fields_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true"
+                android:paddingHorizontal="10dp"
+                android:layout_marginHorizontal="55dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/login_fields_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/email_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="@color/white"
+                    android:hint="digite seu email"
+                    android:inputType="textEmailAddress"/>
+
+                <EditText
+                    android:id="@+id/password_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="@color/white"
+                    android:hint="digite sua senha"
+                    android:inputType="textPassword"/>
+
+                <EditText
+                    android:id="@+id/password_check_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="@color/white"
+                    android:hint="confirme sua senha"
+                    android:inputType="textPassword"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/session_id_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="@color/white"
+                    android:hint="digite o numero da sessao"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/alt_buttons_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginVertical="10dp"
+                    android:weightSum="2"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/back_to_login_button"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/secondary_button"
+                        android:onClick="didTapBackToLogin"
+                        android:text="Voltar" />
+
+                    <Button
+                        android:id="@+id/register_button"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/primary_button"
+                        android:text="Cadastrar"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/join_session_button"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/primary_button"
+                        android:text="Conectar"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/login_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:background="@drawable/primary_button"
+                    android:onClick="didTapLogin"
+                    android:text="Entrar" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:animateLayoutChanges="true"
+                app:layout_constraintTop_toBottomOf="@id/fields_layout">
+
+                <Button
+                    android:id="@+id/start_register_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ainda nao tenho cadastro"
+                    android:background="@drawable/secondary_button"
+                    android:onClick="didTapRegister"/>
+
+                <Button
+                    android:id="@+id/join_as_guest_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entrar como visitante"
+                    android:background="@drawable/secondary_button"
+                    android:onClick="didTapWannaJoinAsGuest"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
