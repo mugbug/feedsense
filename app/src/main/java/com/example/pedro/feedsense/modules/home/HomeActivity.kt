@@ -11,6 +11,7 @@ import com.example.pedro.feedsense.modules.BaseActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.android.architecture.ext.viewModel
 
+
 class HomeActivity : BaseActivity() {
 
     private val viewModel by viewModel<HomeViewModel>()

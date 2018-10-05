@@ -33,7 +33,7 @@
                 android:text="FeedSense"
                 android:textSize="50sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/lato_light"
+                android:fontFamily="@font/nature_beauty"
                 android:layout_marginBottom="30dp"
                 android:gravity="center_horizontal"
                 app:layout_constraintBottom_toTopOf="@id/fields_layout"
