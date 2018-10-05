@@ -69,6 +69,7 @@ class HomeActivity : BaseActivity() {
     // Actions
 
     fun didTapLogout(view: View) {
+        defaultPrefs(this).edit().clear().apply()
         val intent = Intent(this, LoginActivity::class.java)
         finish()
         startActivity(intent)

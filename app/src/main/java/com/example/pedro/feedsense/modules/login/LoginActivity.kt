@@ -62,7 +62,7 @@ class LoginActivity: BaseActivity() {
         viewModel.joinSession(sessionId)
     }
 
-    fun showHomeScreen(sessionId: String? = null) {
+    private fun showHomeScreen(sessionId: String? = null) {
         if (sessionId != null && !sessionId.isEmpty()) {
             val prefs = defaultPrefs(this)
             prefs["sessionId"] = sessionId

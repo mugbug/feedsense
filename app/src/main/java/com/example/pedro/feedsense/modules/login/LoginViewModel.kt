@@ -35,7 +35,6 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
         _showHomeScreen.call()
     }
 
-
     private fun treatJoinSessionWithFailure(error: Throwable?) {
         _showHomeScreen.value = "123"
         _showHomeScreen.call()
