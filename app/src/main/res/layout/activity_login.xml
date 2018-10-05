@@ -91,11 +91,12 @@
                     android:visibility="gone" />
 
                 <EditText
-                    android:id="@+id/session_id_field"
+                    android:id="@+id/login_session_id_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
                     android:textColor="@color/white"
+                    android:inputType="number"
                     android:hint="digite o numero da sessao"
                     android:visibility="gone" />
 
@@ -134,7 +135,8 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/primary_button"
                         android:text="Conectar"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        android:onClick="didTapJoinAsGuest"/>
                 </LinearLayout>
 
                 <Button

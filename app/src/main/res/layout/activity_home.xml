@@ -28,11 +28,13 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageButton
+            android:id="@+id/home_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:src="@drawable/logout_icon"
             android:background="@color/transparent"
+            android:onClick="didTapLogout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/home_title"
             app:layout_constraintBottom_toBottomOf="@id/home_title"/>
@@ -87,6 +89,7 @@
                     android:layout_weight="1.3"
                     android:layout_height="match_parent"
                     android:textColor="@color/white"
+                    android:inputType="number"
                     android:layout_marginRight="10dp"
                     android:hint="digite o numero da sessao"/>
 
