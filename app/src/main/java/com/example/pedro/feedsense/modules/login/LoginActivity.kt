@@ -16,12 +16,19 @@ import com.example.pedro.feedsense.PreferenceHelper.defaultPrefs
 import com.example.pedro.feedsense.PreferenceHelper.set
 import com.example.pedro.feedsense.modules.home.HomeActivity
 
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
+
 class LoginActivity: BaseActivity() {
 
     private val viewModel by viewModel<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // starts Crashlytics for project
+        Fabric.with(this, Crashlytics())
+
         setContentView(R.layout.activity_login)
 
         val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(

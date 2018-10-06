@@ -1,38 +1,25 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
+# More documentation about how to customize your build
+# can be found here:
+# https://docs.fastlane.tools
+fastlane_version "2.68.0"
 
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+# This value helps us track success metrics for Fastfiles
+# we automatically generate. Feel free to remove this line
+# once you get things running smoothly!
+generated_fastfile_id "ffc8451c-48bc-4856-b9ac-1a5edd9212f4"
 
-default_platform(:android)
+default_platform :android
 
-platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
+# Fastfile actions accept additional configuration, but
+# don't worry, fastlane will prompt you for required
+# info which you can add here later
+lane :beta do
+  # build the release variant
+  build_android_app(task: "assembleRelease")
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
-  end
+  # upload to Beta by Crashlytics
+  crashlytics(
+    api_token: "f4f20d1c10f8b0474509e1198eb1097a3493cfe8",
+    build_secret: "7c7eec2e9181427f4ee5866dfa7348ee07f874e81dee2882f32e4a23a780d5fd"
+  )
 end
