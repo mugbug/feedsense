@@ -152,6 +152,15 @@
                     android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
                     android:onClick="didTapRedButton"/>
             </LinearLayout>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.github.mikephil.charting.charts.LineChart>
         </LinearLayout>
 
         <com.github.clans.fab.FloatingActionMenu
