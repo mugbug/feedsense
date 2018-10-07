@@ -18,7 +18,7 @@ import org.koin.android.architecture.ext.viewModel
 
 class HomeActivity : BaseActivity() {
 
-    private val viewModel by viewModel<HomeViewModel>()
+    val viewModel: HomeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +35,8 @@ class HomeActivity : BaseActivity() {
 
         pager.post {
             pager.currentItem = 1
+            checkHomeState()
         }
-
-        checkHomeState()
     }
 
     private fun checkHomeState() {
