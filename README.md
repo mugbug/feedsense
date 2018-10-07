@@ -1,4 +1,4 @@
-![FeedSense](https://github.com/mugbug/feedsense/.extended-logo.png)
+![FeedSense](https://github.com/mugbug/feedsense/blob/master/.extended-logo.png)
 
 [![Build Status](https://travis-ci.org/mugbug/feedsense.svg?branch=master)](https://travis-ci.org/mugbug/feedsense)
 
