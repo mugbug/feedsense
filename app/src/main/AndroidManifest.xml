@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:targetSandboxVersion="1"
     package="com.example.pedro.feedsense">
 
     <application android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".modules.login.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
@@ -18,7 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.home.HomeActivity"/>
+        <activity android:name=".modules.home.HomeActivity" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f4f20d1c10f8b0474509e1198eb1097a3493cfe8" />
     </application >
 
     <uses-permission android:name="android.permission.INTERNET" />

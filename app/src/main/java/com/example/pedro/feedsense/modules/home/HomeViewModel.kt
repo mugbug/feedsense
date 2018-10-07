@@ -42,6 +42,10 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
         _currentSession.value = "-"
     }
 
+    fun setCurrentSession(value: String) {
+        _currentSession.value = value
+    }
+
     fun joinSession(sessionId: String) {
 
         disposable = service.feedsenseService()

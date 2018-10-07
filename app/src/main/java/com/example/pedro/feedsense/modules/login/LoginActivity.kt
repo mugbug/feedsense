@@ -11,7 +11,13 @@ import android.view.View
 import android.content.Intent
 import com.squareup.picasso.Picasso
 import android.view.WindowManager
+import androidx.lifecycle.Observer
+import com.example.pedro.feedsense.PreferenceHelper.defaultPrefs
+import com.example.pedro.feedsense.PreferenceHelper.set
 import com.example.pedro.feedsense.modules.home.HomeActivity
+
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 class LoginActivity: BaseActivity() {
 
@@ -19,6 +25,10 @@ class LoginActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // starts Crashlytics for project
+        Fabric.with(this, Crashlytics())
+
         setContentView(R.layout.activity_login)
 
         val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(
@@ -27,7 +37,15 @@ class LoginActivity: BaseActivity() {
         )
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
+
         updateBackgroundImage()
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        viewModel.showHomeScreen.observe(this, Observer {
+            showHomeScreen(it)
+        })
     }
 
     private fun updateBackgroundImage() {
@@ -40,14 +58,24 @@ class LoginActivity: BaseActivity() {
     }
 
     fun didTapLogin(view: View) {
-        // switch login button to loading
-        // call presenter to do request
-        showHomeScreen()
+        // switch button to loading
+        val email = email_field.text.toString()
+        val password = password_field.text.toString()
+        viewModel.performLogin(email, password)
     }
 
-    fun showHomeScreen() {
+    fun didTapJoinAsGuest(view: View) {
+        val sessionId = login_session_id_field.text.toString()
+        viewModel.joinSession(sessionId)
+    }
+
+    private fun showHomeScreen(sessionId: String? = null) {
+        if (sessionId != null && !sessionId.isEmpty()) {
+            val prefs = defaultPrefs(this)
+            prefs["sessionId"] = sessionId
+        }
         val intent = Intent(this, HomeActivity::class.java)
-//        finish()
+        finish()
         startActivity(intent)
     }
 
@@ -69,7 +97,7 @@ class LoginActivity: BaseActivity() {
         email_field.visibility = View.GONE
         password_field.visibility = View.GONE
         password_check_field.visibility = View.GONE
-        session_id_field.visibility = View.VISIBLE
+        login_session_id_field.visibility = View.VISIBLE
         login_button.visibility = View.GONE
         alt_buttons_layout.visibility = View.VISIBLE
         register_button.visibility = View.GONE
@@ -84,7 +112,7 @@ class LoginActivity: BaseActivity() {
         email_field.visibility = View.VISIBLE
         password_field.visibility = View.VISIBLE
         password_check_field.visibility = View.VISIBLE
-        session_id_field.visibility = View.GONE
+        login_session_id_field.visibility = View.GONE
         login_button.visibility = View.GONE
         alt_buttons_layout.visibility = View.VISIBLE
         register_button.visibility = View.VISIBLE
@@ -98,7 +126,7 @@ class LoginActivity: BaseActivity() {
         email_field.visibility = View.VISIBLE
         password_field.visibility = View.VISIBLE
         password_check_field.visibility = View.GONE
-        session_id_field.visibility = View.GONE
+        login_session_id_field.visibility = View.GONE
         login_button.visibility = View.VISIBLE
         alt_buttons_layout.visibility = View.GONE
         register_button.visibility = View.GONE

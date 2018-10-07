@@ -4,10 +4,11 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import com.example.pedro.feedsense.R
 import io.reactivex.disposables.CompositeDisposable
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : FragmentActivity() {
 
     private var simpleDialog: AlertDialog? = null
     val disposeBag = CompositeDisposable()

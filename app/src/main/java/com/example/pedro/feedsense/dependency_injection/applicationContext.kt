@@ -10,7 +10,7 @@ import org.koin.dsl.module.applicationContext
 
 val module: Module = applicationContext {
 
-    viewModel { LoginViewModel() }
+    viewModel { LoginViewModel(get()) }
     viewModel { HomeViewModel(get()) }
 
     bean { RetrofitInitializer() as NetworkServices }
