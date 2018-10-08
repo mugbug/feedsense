@@ -49,6 +49,8 @@ class HomeReactionsFragment: Fragment() {
 
         viewModel.hideJoinSessionFields.observe(this, Observer {
             shouldHideJoinSessionFields()
+            reaction_buttons.visibility = View.VISIBLE
+            home_join_session_button.revertAnimation()
         })
     }
 

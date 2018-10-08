@@ -18,6 +18,10 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
     val showHomeScreen: LiveData<String>
         get() = _showHomeScreen
 
+    private val _stopLoading = SingleLiveEvent<Void>()
+    val stopLoading: LiveData<Void>
+        get() = _stopLoading
+
     fun joinSession(sessionId: String) {
 
         disposable = service.feedsenseService()
@@ -36,8 +40,7 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     private fun treatJoinSessionWithFailure(error: Throwable?) {
-        _showHomeScreen.value = "123"
-        _showHomeScreen.call()
+        _stopLoading.call()
         Log.e("tag", error?.message)
     }
 

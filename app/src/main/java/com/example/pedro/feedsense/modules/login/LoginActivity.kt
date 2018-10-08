@@ -9,6 +9,8 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.architecture.ext.viewModel
 import android.view.View
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import com.squareup.picasso.Picasso
 import android.view.WindowManager
 import androidx.lifecycle.Observer
@@ -46,6 +48,10 @@ class LoginActivity: BaseActivity() {
         viewModel.showHomeScreen.observe(this, Observer {
             showHomeScreen(it)
         })
+
+        viewModel.stopLoading.observe(this, Observer {
+            stopLoading()
+        })
     }
 
     private fun updateBackgroundImage() {
@@ -57,14 +63,22 @@ class LoginActivity: BaseActivity() {
                 .into(background_image)
     }
 
+    fun stopLoading() {
+        login_button.revertAnimation()
+        join_session_button.revertAnimation()
+    }
+
     fun didTapLogin(view: View) {
         // switch button to loading
+        login_button.startAnimation()
         val email = email_field.text.toString()
         val password = password_field.text.toString()
         viewModel.performLogin(email, password)
     }
 
     fun didTapJoinAsGuest(view: View) {
+        val width = join_session_button.width
+        join_session_button.startAnimation()
         val sessionId = login_session_id_field.text.toString()
         viewModel.joinSession(sessionId)
     }
@@ -100,8 +114,8 @@ class LoginActivity: BaseActivity() {
         login_session_id_field.visibility = View.VISIBLE
         login_button.visibility = View.GONE
         alt_buttons_layout.visibility = View.VISIBLE
-        register_button.visibility = View.GONE
-        join_session_button.visibility = View.VISIBLE
+        login_register_button_layout.visibility = View.GONE
+        login_join_session_button_layout.visibility = View.VISIBLE
         start_register_button.visibility = View.VISIBLE
         join_as_guest_button.visibility = View.GONE
     }
@@ -115,8 +129,8 @@ class LoginActivity: BaseActivity() {
         login_session_id_field.visibility = View.GONE
         login_button.visibility = View.GONE
         alt_buttons_layout.visibility = View.VISIBLE
-        register_button.visibility = View.VISIBLE
-        join_session_button.visibility = View.GONE
+        login_register_button_layout.visibility = View.VISIBLE
+        login_join_session_button_layout.visibility = View.GONE
         start_register_button.visibility = View.GONE
         join_as_guest_button.visibility = View.VISIBLE
     }
@@ -129,8 +143,8 @@ class LoginActivity: BaseActivity() {
         login_session_id_field.visibility = View.GONE
         login_button.visibility = View.VISIBLE
         alt_buttons_layout.visibility = View.GONE
-        register_button.visibility = View.GONE
-        join_session_button.visibility = View.GONE
+        login_register_button_layout.visibility = View.GONE
+        login_join_session_button_layout.visibility = View.GONE
         start_register_button.visibility = View.VISIBLE
         join_as_guest_button.visibility = View.VISIBLE
     }

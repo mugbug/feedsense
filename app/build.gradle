@@ -11,7 +11,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0 (2)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'br.com.simplepass:loading-button-android:1.14.0'
 
     implementation 'com.android.support:support-compat:28'
 
