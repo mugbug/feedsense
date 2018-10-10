@@ -6,8 +6,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class HomePagerAdapter(fragmentManager: FragmentManager): FragmentPagerAdapter(fragmentManager) {
 
-
-
     override fun getItem(position: Int): Fragment {
         return when(position) {
             0 -> LineChartFragment.newInstance()

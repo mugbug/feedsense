@@ -2,6 +2,7 @@ package com.example.pedro.feedsense.repository
 
 import com.example.pedro.feedsense.models.ReactionModel
 import com.example.pedro.feedsense.models.SessionModel
+import com.example.pedro.feedsense.models.User
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -16,4 +17,7 @@ interface FeedsenseService {
 
     @POST("comments")
     fun reactToSession(@Body reaction: ReactionModel): Observable<String>
+
+    @POST("users")
+    fun registerUser(@Body user: User): Observable<User>
 }

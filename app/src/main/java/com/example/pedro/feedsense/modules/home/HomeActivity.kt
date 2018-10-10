@@ -5,20 +5,23 @@ import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentPagerAdapter
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.example.pedro.feedsense.*
 import com.example.pedro.feedsense.PreferenceHelper.defaultPrefs
 import com.example.pedro.feedsense.PreferenceHelper.get
 import com.example.pedro.feedsense.databinding.ActivityHomeBinding
 import com.example.pedro.feedsense.models.Reaction
 import com.example.pedro.feedsense.modules.BaseActivity
+import com.example.pedro.feedsense.modules.hideKeyboard
 import com.example.pedro.feedsense.modules.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home_reactions.*
+import kotlinx.android.synthetic.main.fragment_line_chart.*
 import org.koin.android.architecture.ext.viewModel
 
 class HomeActivity : BaseActivity() {
 
-    private val viewModel by viewModel<HomeViewModel>()
+    val viewModel: HomeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +38,8 @@ class HomeActivity : BaseActivity() {
 
         pager.post {
             pager.currentItem = 1
+            checkHomeState()
         }
-
-        checkHomeState()
     }
 
     private fun checkHomeState() {
@@ -45,7 +47,7 @@ class HomeActivity : BaseActivity() {
         val sessionId: String? = prefs["sessionId"]
         if (sessionId != null) {
             viewModel.setCurrentSession(sessionId)
-            shouldShowReactionButtons()
+            showReactionButtons()
         }
     }
 
@@ -68,12 +70,14 @@ class HomeActivity : BaseActivity() {
         join_session_fields.visibility = View.VISIBLE
     }
 
-    private fun shouldShowReactionButtons() {
+    private fun showReactionButtons() {
         reaction_buttons.visibility = View.VISIBLE
     }
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapJoinSession(view: View) {
+        hideKeyboard(this)
+        home_join_session_button.startAnimation()
         val pin = session_code_field.text.toString()
         viewModel.joinSession(pin)
     }

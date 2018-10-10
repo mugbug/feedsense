@@ -10,8 +10,8 @@ android {
         applicationId "com.example.pedro.feedsense"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'br.com.simplepass:loading-button-android:1.14.0'
 
     implementation 'com.android.support:support-compat:28'
 
@@ -63,7 +64,10 @@ dependencies {
     }
 
     // testing
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.0.6'
+    testImplementation "com.nhaarman:mockito-kotlin:1.1.0"
+    testImplementation 'org.amshove.kluent:kluent:1.14'
+    testImplementation "org.assertj:assertj-core:3.11.1"
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 }

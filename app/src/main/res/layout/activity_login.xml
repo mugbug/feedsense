@@ -124,34 +124,61 @@
                             android:onClick="didTapBackToLogin"
                             android:text="Voltar" />
 
-                        <Button
-                            android:id="@+id/register_button"
+                        <FrameLayout
+                            android:id="@+id/login_register_button_layout"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/primary_button"
-                            android:text="Cadastrar"
-                            android:visibility="gone" />
+                            android:layout_height="match_parent"
+                            android:visibility="gone">
 
-                        <Button
-                            android:id="@+id/join_session_button"
+                            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                                android:id="@+id/register_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/primary_button"
+                                android:text="Cadastrar"
+                                android:layout_gravity="center_horizontal"
+                                android:onClick="didTapRegister"
+                                app:spinning_bar_padding="0dp"
+                                app:spinning_bar_color="@color/white"
+                                app:initialCornerAngle="1000dp"
+                                app:finalCornerAngle="1000dp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/login_join_session_button_layout"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/primary_button"
-                            android:text="Conectar"
-                            android:visibility="gone"
-                            android:onClick="didTapJoinAsGuest"/>
+                            android:layout_height="match_parent"
+                            android:visibility="gone">
+
+                            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                                android:id="@+id/join_session_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/primary_button"
+                                android:text="Conectar"
+                                android:layout_gravity="center_horizontal"
+                                android:onClick="didTapJoinAsGuest"
+                                app:spinning_bar_padding="0dp"
+                                app:spinning_bar_color="@color/white"
+                                app:initialCornerAngle="1000dp"
+                                app:finalCornerAngle="1000dp"/>
+                        </FrameLayout>
                     </LinearLayout>
 
-                    <Button
+                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                         android:id="@+id/login_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:background="@drawable/primary_button"
                         android:onClick="didTapLogin"
-                        android:text="Entrar" />
+                        android:text="Entrar"
+                        app:spinning_bar_color="@color/white"
+                        app:initialCornerAngle="1000dp"
+                        app:finalCornerAngle="1000dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -169,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:text="Ainda nao tenho cadastro"
                         android:background="@drawable/secondary_button"
-                        android:onClick="didTapRegister"/>
+                        android:onClick="didTapWannaRegister"/>
 
                     <Button
                         android:id="@+id/join_as_guest_button"
@@ -180,6 +207,7 @@
                         android:onClick="didTapWannaJoinAsGuest"/>
                 </LinearLayout>
             </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

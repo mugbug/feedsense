@@ -15,8 +15,11 @@ import com.example.pedro.feedsense.useSimpleStyle
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import kotlinx.android.synthetic.main.fragment_line_chart.*
+import org.koin.android.architecture.ext.sharedViewModel
 
 class LineChartFragment: Fragment() {
+
+    val viewModel: HomeViewModel by sharedViewModel()
 
     companion object {
 

@@ -1,14 +1,32 @@
 language: android
+sudo: required
+dist: precise
 android:
   components:
-    - android-28
-    - build-tools-28.0.2
-
+  - platform-tools
+  - tools
+  - android-28
+  - build-tools-28.0.2
+  - extra-android-m2repository
+  - extra-google-google_play_services
+  - extra-google-m2repository
+licenses:
+  - android-sdk-preview-license-c81a61d9
+  - android-sdk-license-.+
+  - google-gdk-license-.+
 env:
   global:
-   # install timeout in minutes (2 minutes by default)
+    # install timeout in minutes (2 minutes by default)
     - ADB_INSTALL_TIMEOUT=8
-
 # Run assemble and unit tests
 script:
-  - ./gradlew clean assembleDebug assembleRelease testDebug
+  - ./gradlew clean assembleDebug assembleRelease testDebug --stacktrace --no-daemon
+after_script:
+  - bundle exec fastlane beta
+before_install:
+  - chmod +x gradlew
+  - bundle install
+branches:
+  only:
+  - master
+  - develop
