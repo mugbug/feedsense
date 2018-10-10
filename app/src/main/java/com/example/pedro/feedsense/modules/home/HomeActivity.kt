@@ -12,6 +12,7 @@ import com.example.pedro.feedsense.PreferenceHelper.get
 import com.example.pedro.feedsense.databinding.ActivityHomeBinding
 import com.example.pedro.feedsense.models.Reaction
 import com.example.pedro.feedsense.modules.BaseActivity
+import com.example.pedro.feedsense.modules.hideKeyboard
 import com.example.pedro.feedsense.modules.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home_reactions.*
@@ -75,6 +76,7 @@ class HomeActivity : BaseActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapJoinSession(view: View) {
+        hideKeyboard(this)
         home_join_session_button.startAnimation()
         val pin = session_code_field.text.toString()
         viewModel.joinSession(pin)

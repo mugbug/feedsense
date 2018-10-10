@@ -17,9 +17,6 @@ fun List<Entry>.parseToLineDataSet(color: Int): LineDataSet {
     val dataSet = LineDataSet(this, "")
     dataSet.lineWidth = 3f
     dataSet.color = color // changes line color
-    //dataSet.valueTextColor = Color.WHITE
-    //dataSet.valueFormatter = LineChartValueFormatter()
-    //dataSet.valueTextSize = 15f
     dataSet.setDrawValues(false)
     dataSet.circleRadius = 5f
     dataSet.setCircleColor(color)

@@ -103,10 +103,9 @@
                     android:layout_weight="1"
                     android:layout_height="100dp"
                     android:background="@color/transparent"
-                    android:tint="@color/green"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/thumbs_up_icon"
+                    android:src="@drawable/ic_in_love"
                     android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
                     android:onClick="didTapGreenButton"/>
 
@@ -116,10 +115,9 @@
                     android:layout_weight="1"
                     android:layout_height="100dp"
                     android:background="@color/transparent"
-                    android:tint="@color/yellow"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/thumbs_up_down_icon"
+                    android:src="@drawable/ic_confused"
                     android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
                     android:onClick="didTapYellowButton"/>
 
@@ -129,10 +127,9 @@
                     android:layout_weight="1"
                     android:layout_height="100dp"
                     android:background="@color/transparent"
-                    android:tint="@color/red"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/thumb_down_icon"
+                    android:src="@drawable/ic_bored"
                     android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
                     android:onClick="didTapRedButton"/>
             </LinearLayout>

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.example.pedro.feedsense.R
+import com.example.pedro.feedsense.models.Alert
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseActivity : FragmentActivity() {
@@ -18,13 +19,9 @@ open class BaseActivity : FragmentActivity() {
         disposeBag.clear()
     }
 
-    open fun showLoading() {}
-
-    open fun hideLoading() {}
-
-    fun showSimpleDialog(title: String, message: String, buttonText: String, isCancelable: Boolean = true) {
+    fun showSimpleDialog(alert: Alert) {
         val dummyListener = DialogInterface.OnClickListener { _, _ -> }
-        showSimpleDialog(title, message, buttonText, isCancelable, dummyListener)
+        showSimpleDialog(alert.title, alert.message, alert.buttonText, alert.isCancelable, dummyListener)
     }
 
     protected fun showSimpleDialog(title: String, message: String, buttonText: String,

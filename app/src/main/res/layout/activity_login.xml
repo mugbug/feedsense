@@ -138,6 +138,7 @@
                                 android:background="@drawable/primary_button"
                                 android:text="Cadastrar"
                                 android:layout_gravity="center_horizontal"
+                                android:onClick="didTapRegister"
                                 app:spinning_bar_padding="0dp"
                                 app:spinning_bar_color="@color/white"
                                 app:initialCornerAngle="1000dp"
@@ -195,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:text="Ainda nao tenho cadastro"
                         android:background="@drawable/secondary_button"
-                        android:onClick="didTapRegister"/>
+                        android:onClick="didTapWannaRegister"/>
 
                     <Button
                         android:id="@+id/join_as_guest_button"
@@ -206,6 +207,7 @@
                         android:onClick="didTapWannaJoinAsGuest"/>
                 </LinearLayout>
             </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

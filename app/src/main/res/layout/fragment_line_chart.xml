@@ -34,7 +34,7 @@
                     android:hint="numero da sessao"/>
 
                 <Button
-                    android:id="@+id/home_join_session_loading"
+                    android:id="@+id/plot_chart_with_session_button"
                     android:layout_width="0dp"
                     android:layout_weight="0.4"
                     android:layout_height="wrap_content"

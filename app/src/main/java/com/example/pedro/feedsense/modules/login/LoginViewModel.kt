@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.pedro.feedsense.SingleLiveEvent
 import com.example.pedro.feedsense.models.Alert
+import com.example.pedro.feedsense.models.User
 import com.example.pedro.feedsense.repository.NetworkServices
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -21,6 +22,10 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
     private val _stopLoading = SingleLiveEvent<Void>()
     val stopLoading: LiveData<Void>
         get() = _stopLoading
+
+    private val _showAlert = SingleLiveEvent<Alert>()
+    val showAlert: LiveData<Alert>
+        get() = _showAlert
 
     fun joinSession(sessionId: String) {
 
@@ -47,5 +52,35 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
     fun performLogin(email: String, password: String) {
         // perform request for login
         _showHomeScreen.call()
+    }
+
+    fun register(email: String, password: String, checkPassword: String) {
+        if (password == checkPassword && !email.isEmpty() && !password.isEmpty()) {
+            val user = User(email, password, true, "")
+            performRegisterRequest(user)
+            return
+        }
+        val alert = Alert("Oops!", "Preencha todos os campos corretamente!", "Ok")
+        _showAlert.value = alert
+        _showAlert.call()
+        _stopLoading.call()
+    }
+
+    private fun performRegisterRequest(user: User) {
+        disposable = service.feedsenseService()
+                .registerUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { _ -> _showHomeScreen.call() },
+                        { error -> treatRegisterError(error) }
+                )
+    }
+
+    fun treatRegisterError(error: Throwable?) {
+        val alert = Alert("Oops!", error?.message ?: "", "Ok")
+        _showAlert.value = alert
+        _showAlert.call()
+        _stopLoading.call()
     }
 }

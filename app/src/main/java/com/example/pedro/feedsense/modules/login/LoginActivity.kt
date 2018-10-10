@@ -19,6 +19,7 @@ import com.example.pedro.feedsense.PreferenceHelper.set
 import com.example.pedro.feedsense.modules.home.HomeActivity
 
 import com.crashlytics.android.Crashlytics
+import com.example.pedro.feedsense.modules.hideKeyboard
 import io.fabric.sdk.android.Fabric
 
 class LoginActivity: BaseActivity() {
@@ -52,12 +53,18 @@ class LoginActivity: BaseActivity() {
         viewModel.stopLoading.observe(this, Observer {
             stopLoading()
         })
+
+        viewModel.showAlert.observe(this, Observer {
+            if (it != null) {
+                showSimpleDialog(it)
+            }
+        })
     }
 
     private fun updateBackgroundImage() {
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         Picasso.get()
-                .load("https://source.unsplash.com/featured/?nature,water")
+                .load("https://source.unsplash.com/collection/3333976")
                 .fit()
                 .centerCrop()
                 .into(background_image)
@@ -65,25 +72,35 @@ class LoginActivity: BaseActivity() {
 
     fun stopLoading() {
         login_button.revertAnimation()
+        register_button.revertAnimation()
         join_session_button.revertAnimation()
     }
 
     fun didTapLogin(view: View) {
-        // switch button to loading
+        hideKeyboard(this)
         login_button.startAnimation()
         val email = email_field.text.toString()
         val password = password_field.text.toString()
         viewModel.performLogin(email, password)
     }
 
+    fun didTapRegister(view: View) {
+        hideKeyboard(this)
+        register_button.startAnimation()
+        val email = email_field.text.toString()
+        val password = password_field.text.toString()
+        val checkPassword = password_check_field.text.toString()
+        viewModel.register(email, password, checkPassword)
+    }
+
     fun didTapJoinAsGuest(view: View) {
-        val width = join_session_button.width
+        hideKeyboard(this)
         join_session_button.startAnimation()
         val sessionId = login_session_id_field.text.toString()
         viewModel.joinSession(sessionId)
     }
 
-    private fun showHomeScreen(sessionId: String? = null) {
+    fun showHomeScreen(sessionId: String? = null) {
         if (sessionId != null && !sessionId.isEmpty()) {
             val prefs = defaultPrefs(this)
             prefs["sessionId"] = sessionId
@@ -93,7 +110,7 @@ class LoginActivity: BaseActivity() {
         startActivity(intent)
     }
 
-    fun didTapRegister(view: View) {
+    fun didTapWannaRegister(view: View) {
         showRegisterFields()
     }
 
