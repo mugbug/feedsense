@@ -14,11 +14,6 @@ default_platform :android
 # don't worry, fastlane will prompt you for required
 # info which you can add here later
 lane :beta do
-
-  # bump version
-  increment_version_code(
-    gradle_file_path: "app/build.gradle"
-  )
   
   # build the release variant
   gradle(
@@ -33,3 +28,16 @@ lane :beta do
     groups: 'feedsense'
   )
 end
+
+lane :bump_version do
+
+  # bump version
+  increment_version_code(
+    gradle_file_path: "app/build.gradle"
+  )
+
+  commit_android_version_bump(
+    gradle_file_folder:"app"
+  )
+end
+
