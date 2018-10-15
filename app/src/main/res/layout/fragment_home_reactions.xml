@@ -65,7 +65,7 @@
                     android:textColor="@color/white"
                     android:inputType="number"
                     android:layout_marginRight="10dp"
-                    android:hint="digite o numero da sessao"/>
+                    android:hint="digite o número da sessão"/>
 
                 <FrameLayout
                     android:layout_width="0dp"
@@ -97,41 +97,65 @@
                 android:weightSum="3"
                 android:visibility="gone">
 
-                <ImageButton
-                    android:id="@+id/green_button"
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="100dp"
-                    android:background="@color/transparent"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_in_love"
-                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
-                    android:onClick="didTapGreenButton"/>
+                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin">
 
-                <ImageButton
-                    android:id="@+id/yellow_button"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="100dp"
-                    android:background="@color/transparent"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_confused"
-                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
-                    android:onClick="didTapYellowButton"/>
+                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressImageButton
+                        android:id="@+id/green_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_in_love"
+                        android:onClick="didTapGreenButton"
+                        app:spinning_bar_padding="10dp"
+                        app:spinning_bar_color="@color/green" />
 
-                <ImageButton
-                    android:id="@+id/red_button"
+                </FrameLayout>
+
+
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="100dp"
-                    android:background="@color/transparent"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_bored"
-                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin"
-                    android:onClick="didTapRedButton"/>
+                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin">
+
+                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressImageButton
+                        android:id="@+id/yellow_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_confused"
+                        android:onClick="didTapYellowButton"
+                        app:spinning_bar_padding="10dp"
+                        app:spinning_bar_color="@color/yellow"/>
+                </FrameLayout>
+
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin">
+
+                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressImageButton
+                        android:id="@+id/red_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_bored"
+                        android:onClick="didTapRedButton"
+                        app:spinning_bar_padding="10dp"
+                        app:spinning_bar_color="@color/red"/>
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
 

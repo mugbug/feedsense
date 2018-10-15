@@ -8,16 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.pedro.feedsense.R
-import com.example.pedro.feedsense.parseToLineDataSet
-import com.example.pedro.feedsense.setTextColor
-import com.example.pedro.feedsense.useSimpleStyle
+import com.example.pedro.feedsense.*
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import kotlinx.android.synthetic.main.fragment_line_chart.*
+import kotlinx.android.synthetic.main.fragment_line_chart.view.*
 import org.koin.android.architecture.ext.sharedViewModel
+import java.util.*
 
-class LineChartFragment: Fragment() {
+class LineChartFragment: Fragment(), View.OnClickListener {
 
     val viewModel: HomeViewModel by sharedViewModel()
 
@@ -29,14 +28,28 @@ class LineChartFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_line_chart, container, false)
+        val view = inflater.inflate(R.layout.fragment_line_chart, container, false)
+        view.plot_chart_with_session_button.setOnClickListener(this)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        configureLineChart(activity!!.applicationContext)
+        configureLineChart()
     }
 
-    private fun configureLineChart(context: Context) {
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.plot_chart_with_session_button -> {
+                view.plot_chart_with_session_button.startAnimation()
+                configureLineChart()
+            }
+            else -> {}
+        }
+    }
+
+    private fun configureLineChart() {
+        val context = activity!!.applicationContext
+        view?.plot_chart_with_session_button?.revertAnimation()
         val entries = ArrayList<Entry>()
         val entries1 = ArrayList<Entry>()
         val entries2 = ArrayList<Entry>()
@@ -56,6 +69,10 @@ class LineChartFragment: Fragment() {
         val dataSet = entries.parseToLineDataSet(green)
         val dataSet1 = entries1.parseToLineDataSet(yellow)
         val dataSet2 = entries2.parseToLineDataSet(red)
+
+        // set marker
+//        val marker = CustomMarkerView(context, R.layout.line_chart_marker_view)
+//        line_chart.marker = marker
 
         val lineData = LineData(dataSet, dataSet1, dataSet2)
         line_chart.data = lineData

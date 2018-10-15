@@ -102,7 +102,7 @@
                         android:layout_marginVertical="10dp"
                         android:textColor="@color/white"
                         android:inputType="number"
-                        android:hint="digite o numero da sessao"
+                        android:hint="digite o número da sessão"
                         android:visibility="gone" />
 
                     <LinearLayout
@@ -194,7 +194,7 @@
                         android:id="@+id/start_register_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ainda nao tenho cadastro"
+                        android:text="Ainda não tenho cadastro"
                         android:background="@drawable/secondary_button"
                         android:onClick="didTapWannaRegister"/>
 

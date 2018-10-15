@@ -38,6 +38,10 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
     val hideJoinSessionFields: LiveData<Void>
         get() = _hideJoinSessionFields
 
+    private val _stopReactionAnimation = SingleLiveEvent<Void>()
+    val stopReactionAnimation: LiveData<Void>
+        get() = _stopReactionAnimation
+
     init {
         _currentSession.value = "-"
     }
@@ -103,30 +107,33 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
             shouldJoinSession()
             return
         }
-        val reactionModel = ReactionModel(_currentSession.value ?: "", guestId, reaction)
+        val currentTime = Calendar.getInstance().time
+        val reactionModel = ReactionModel(_currentSession.value ?: "", guestId, reaction, currentTime)
         disposable = service.feedsenseService()
                 .reactToSession(reactionModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { _ -> reactedToSessionWithSuccess() },
+                        { reactedToSessionWithSuccess() },
                         { error -> reactedToSessionWithError(error) }
                 )
     }
 
     private fun shouldJoinSession() {
+        _stopReactionAnimation.call()
         val alert = Alert("Oops!", "E necessario entrar em uma sessao antes de reagir!", "Ok")
         _showAlert.value = alert
         _showAlert.call()
     }
 
     private fun reactedToSessionWithSuccess() {
+        _stopReactionAnimation.call()
         _showToast.value = "Reaçao enviada!"
         _showToast.call()
     }
 
     private fun reactedToSessionWithError(error: Throwable?) {
-        print(error)
+        _stopReactionAnimation.call()
         _showToast.value = "Oops! Algo deu errado!"
         _showToast.call()
     }

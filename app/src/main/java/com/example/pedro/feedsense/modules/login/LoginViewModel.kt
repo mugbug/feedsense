@@ -15,9 +15,13 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
 
     private var disposable: Disposable? = null
 
-    private val _showHomeScreen = SingleLiveEvent<String>()
-    val showHomeScreen: LiveData<String>
-        get() = _showHomeScreen
+    private val _showHomeScreenForGuest = SingleLiveEvent<String>()
+    val showHomeScreenForGuest: LiveData<String>
+        get() = _showHomeScreenForGuest
+
+    private val _showHomeScreenForUser = SingleLiveEvent<String>()
+    val showHomeScreenForUser: LiveData<String>
+        get() = _showHomeScreenForUser
 
     private val _stopLoading = SingleLiveEvent<Void>()
     val stopLoading: LiveData<Void>
@@ -40,8 +44,8 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     fun treatJoinSessionWithSuccess(sessionId: String) {
-        _showHomeScreen.value = sessionId
-        _showHomeScreen.call()
+        _showHomeScreenForGuest.value = sessionId
+        _showHomeScreenForGuest.call()
     }
 
     private fun treatJoinSessionWithFailure(error: Throwable?) {
@@ -51,7 +55,8 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
 
     fun performLogin(email: String, password: String) {
         // perform request for login
-        _showHomeScreen.call()
+        _showHomeScreenForUser.value = email
+        _showHomeScreenForUser.call()
     }
 
     fun register(email: String, password: String, checkPassword: String) {
@@ -72,9 +77,14 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { _ -> _showHomeScreen.call() },
+                        { _ -> treatRegisterSuccess(user.email) },
                         { error -> treatRegisterError(error) }
                 )
+    }
+
+    private fun treatRegisterSuccess(email: String) {
+        _showHomeScreenForUser.value = email
+        _showHomeScreenForUser.call()
     }
 
     fun treatRegisterError(error: Throwable?) {
