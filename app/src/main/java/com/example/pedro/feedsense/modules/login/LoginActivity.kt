@@ -10,16 +10,15 @@ import org.koin.android.architecture.ext.viewModel
 import android.view.View
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import com.squareup.picasso.Picasso
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import com.example.pedro.feedsense.PreferenceHelper.defaultPrefs
 import com.example.pedro.feedsense.PreferenceHelper.set
+import com.example.pedro.feedsense.PreferenceHelper.get
 import com.example.pedro.feedsense.modules.home.HomeActivity
 
 import com.crashlytics.android.Crashlytics
+import com.example.pedro.feedsense.PreferenceHelper
 import com.example.pedro.feedsense.modules.hideKeyboard
 import io.fabric.sdk.android.Fabric
 
@@ -34,6 +33,15 @@ class LoginActivity: BaseActivity() {
         // starts Crashlytics for project
         Fabric.with(this, Crashlytics())
 
+        prefs = defaultPrefs(this)
+
+        val isLogged: Boolean? = prefs[PreferenceHelper.IS_LOGGED]
+        if (isLogged == true) {
+            val next = Intent(this, HomeActivity::class.java)
+            finish()
+            startActivity(next)
+        }
+
         setContentView(R.layout.activity_login)
 
         val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(
@@ -42,8 +50,6 @@ class LoginActivity: BaseActivity() {
         )
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
-
-        prefs = defaultPrefs(this)
 
         updateBackgroundImage()
         setupObservers()
@@ -109,7 +115,8 @@ class LoginActivity: BaseActivity() {
     }
 
     private fun showHomeScreenForGuest(sessionId: String) {
-        prefs["sessionId"] = sessionId
+        prefs[PreferenceHelper.SESSION_ID] = sessionId
+        prefs[PreferenceHelper.IS_LOGGED] = true
 
         val next = Intent(this, HomeActivity::class.java)
         finish()
@@ -117,7 +124,8 @@ class LoginActivity: BaseActivity() {
     }
 
     private fun showHomeScreenForUser(email: String) {
-        prefs["email"] = email
+        prefs[PreferenceHelper.EMAIL] = email
+        prefs[PreferenceHelper.IS_LOGGED] = true
 
         val next = Intent(this, HomeActivity::class.java)
         finish()
