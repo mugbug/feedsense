@@ -3,8 +3,6 @@ package com.example.pedro.feedsense.modules.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
 import com.example.pedro.feedsense.SingleLiveEvent
 import com.example.pedro.feedsense.models.Alert
 import com.example.pedro.feedsense.models.Reaction
@@ -37,10 +35,6 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private val _hideJoinSessionFields = SingleLiveEvent<Void>()
     val hideJoinSessionFields: LiveData<Void>
         get() = _hideJoinSessionFields
-
-    private val _stopReactionAnimation = SingleLiveEvent<Void>()
-    val stopReactionAnimation: LiveData<Void>
-        get() = _stopReactionAnimation
 
     init {
         _currentSession.value = "-"
@@ -120,20 +114,17 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     private fun shouldJoinSession() {
-        _stopReactionAnimation.call()
         val alert = Alert("Oops!", "E necessario entrar em uma sessao antes de reagir!", "Ok")
         _showAlert.value = alert
         _showAlert.call()
     }
 
     private fun reactedToSessionWithSuccess() {
-        _stopReactionAnimation.call()
         _showToast.value = "Reaçao enviada!"
         _showToast.call()
     }
 
     private fun reactedToSessionWithError(error: Throwable?) {
-        _stopReactionAnimation.call()
         _showToast.value = "Oops! Algo deu errado!"
         _showToast.call()
     }
