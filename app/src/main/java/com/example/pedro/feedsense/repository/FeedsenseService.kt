@@ -6,6 +6,7 @@ import com.example.pedro.feedsense.models.User
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.*
+import java.util.*
 
 interface FeedsenseService {
 
@@ -20,7 +21,7 @@ interface FeedsenseService {
     fun reactToSession(@Body reaction: ReactionModel): Completable
 
     @GET("comments/{sessionId}")
-    fun fetchComments(@Path("sessionId") sessionId: String): Observable<ReactionModel>
+    fun fetchReactions(@Path("sessionId") sessionId: String): Observable<List<ReactionModel>>
 
     @POST("users")
     fun registerUser(@Body user: User): Observable<User>

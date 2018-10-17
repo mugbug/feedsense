@@ -27,6 +27,7 @@
                 android:weightSum="1">
 
                 <AutoCompleteTextView
+                    android:id="@+id/plot_chart_with_session_field"
                     android:layout_width="0dp"
                     android:layout_weight="0.6"
                     android:layout_marginRight="10dp"
