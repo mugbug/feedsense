@@ -1,4 +1,4 @@
-package com.example.pedro.feedsense.dependency_injection
+package com.example.pedro.feedsense.di
 
 import com.example.pedro.feedsense.modules.home.HomeViewModel
 import com.example.pedro.feedsense.modules.login.LoginViewModel

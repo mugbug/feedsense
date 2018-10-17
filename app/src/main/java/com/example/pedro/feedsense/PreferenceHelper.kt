@@ -6,6 +6,10 @@ import android.preference.PreferenceManager
 
 object PreferenceHelper {
 
+    const val EMAIL = "email"
+    const val SESSION_ID = "sessionId"
+    const val IS_LOGGED = "logged"
+
     fun defaultPrefs(context: Context): SharedPreferences
             = PreferenceManager.getDefaultSharedPreferences(context)
 

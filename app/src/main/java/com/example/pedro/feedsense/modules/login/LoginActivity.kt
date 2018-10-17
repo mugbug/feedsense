@@ -9,28 +9,38 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.architecture.ext.viewModel
 import android.view.View
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Color
+import android.content.SharedPreferences
 import com.squareup.picasso.Picasso
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import com.example.pedro.feedsense.PreferenceHelper.defaultPrefs
 import com.example.pedro.feedsense.PreferenceHelper.set
+import com.example.pedro.feedsense.PreferenceHelper.get
 import com.example.pedro.feedsense.modules.home.HomeActivity
 
 import com.crashlytics.android.Crashlytics
+import com.example.pedro.feedsense.PreferenceHelper
 import com.example.pedro.feedsense.modules.hideKeyboard
 import io.fabric.sdk.android.Fabric
 
 class LoginActivity: BaseActivity() {
 
     private val viewModel by viewModel<LoginViewModel>()
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // starts Crashlytics for project
         Fabric.with(this, Crashlytics())
+
+        prefs = defaultPrefs(this)
+
+        val isLogged: Boolean? = prefs[PreferenceHelper.IS_LOGGED]
+        if (isLogged == true) {
+            val next = Intent(this, HomeActivity::class.java)
+            finish()
+            startActivity(next)
+        }
 
         setContentView(R.layout.activity_login)
 
@@ -46,8 +56,12 @@ class LoginActivity: BaseActivity() {
     }
 
     private fun setupObservers() {
-        viewModel.showHomeScreen.observe(this, Observer {
-            showHomeScreen(it)
+        viewModel.showHomeScreenForGuest.observe(this, Observer {
+            showHomeScreenForGuest(it)
+        })
+
+        viewModel.showHomeScreenForUser.observe(this, Observer {
+            showHomeScreenForUser(it)
         })
 
         viewModel.stopLoading.observe(this, Observer {
@@ -62,7 +76,7 @@ class LoginActivity: BaseActivity() {
     }
 
     private fun updateBackgroundImage() {
-        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        //window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         Picasso.get()
                 .load("https://source.unsplash.com/collection/3333976")
                 .fit()
@@ -70,7 +84,7 @@ class LoginActivity: BaseActivity() {
                 .into(background_image)
     }
 
-    fun stopLoading() {
+    private fun stopLoading() {
         login_button.revertAnimation()
         register_button.revertAnimation()
         join_session_button.revertAnimation()
@@ -100,14 +114,22 @@ class LoginActivity: BaseActivity() {
         viewModel.joinSession(sessionId)
     }
 
-    fun showHomeScreen(sessionId: String? = null) {
-        if (sessionId != null && !sessionId.isEmpty()) {
-            val prefs = defaultPrefs(this)
-            prefs["sessionId"] = sessionId
-        }
-        val intent = Intent(this, HomeActivity::class.java)
+    private fun showHomeScreenForGuest(sessionId: String) {
+        prefs[PreferenceHelper.SESSION_ID] = sessionId
+        prefs[PreferenceHelper.IS_LOGGED] = true
+
+        val next = Intent(this, HomeActivity::class.java)
         finish()
-        startActivity(intent)
+        startActivity(next)
+    }
+
+    private fun showHomeScreenForUser(email: String) {
+        prefs[PreferenceHelper.EMAIL] = email
+        prefs[PreferenceHelper.IS_LOGGED] = true
+
+        val next = Intent(this, HomeActivity::class.java)
+        finish()
+        startActivity(next)
     }
 
     fun didTapWannaRegister(view: View) {

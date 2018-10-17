@@ -1,6 +1,7 @@
 package com.example.pedro.feedsense.modules.home
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
@@ -22,6 +23,9 @@ import org.koin.android.architecture.ext.viewModel
 class HomeActivity : BaseActivity() {
 
     val viewModel: HomeViewModel by viewModel()
+    lateinit var prefs: SharedPreferences
+    private var email: String? = null
+    private var isUser = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +38,23 @@ class HomeActivity : BaseActivity() {
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
 
-        pager.adapter = HomePagerAdapter(supportFragmentManager)
+        prefs = defaultPrefs(this)
+
+        val adapter = HomePagerAdapter(supportFragmentManager)
+
+        email = prefs["email"]
+        viewModel.userToken = email ?: ""
+        isUser = email != null
+
+        if (isUser) {
+            home_create_session_fab.visibility = View.VISIBLE
+            adapter.pages.add(LineChartFragment.newInstance())
+        }
+        adapter.pages.add(HomeReactionsFragment.newInstance())
+        pager.adapter = adapter
 
         pager.post {
-            pager.currentItem = 1
+            pager.currentItem = adapter.count
             checkHomeState()
         }
     }
@@ -52,7 +69,7 @@ class HomeActivity : BaseActivity() {
     }
 
     // Actions
-
+    @Suppress("UNUSED_PARAMETER")
     fun didTapLogout(view: View) {
         defaultPrefs(this).edit().clear().apply()
         val intent = Intent(this, LoginActivity::class.java)
@@ -60,14 +77,26 @@ class HomeActivity : BaseActivity() {
         startActivity(intent)
     }
 
-//    @Suppress("UNUSED_PARAMETER")
-//    fun didTapCreateSession(view: View) {
-//        val pin = session_code_field.text.toString()
-//        viewModel.createSession(pin)
-//    }
+    @Suppress("UNUSED_PARAMETER")
+    fun didTapCreateSession(view: View) {
+        hideKeyboard(this)
+        home_create_session_button.startAnimation()
+        val pin = session_code_field.text.toString()
+        viewModel.createSession(pin)
+    }
 
+    @Suppress("UNUSED_PARAMETER")
     fun didTapWannaJoinSession(view: View) {
         join_session_fields.visibility = View.VISIBLE
+        home_create_session_button.visibility = View.GONE
+        home_join_session_button.visibility = View.VISIBLE
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun didTapWannaCreateSession(view: View) {
+        join_session_fields.visibility = View.VISIBLE
+        home_create_session_button.visibility = View.VISIBLE
+        home_join_session_button.visibility = View.GONE
     }
 
     private fun showReactionButtons() {
@@ -84,18 +113,21 @@ class HomeActivity : BaseActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapGreenButton(view: View) {
+        green_button.startAnimation()
         val reaction = Reaction.LOVING
         viewModel.reactToSession(reaction)
     }
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapYellowButton(view: View) {
+        yellow_button.startAnimation()
         val reaction = Reaction.WHATEVER
         viewModel.reactToSession(reaction)
     }
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapRedButton(view: View) {
+        red_button.startAnimation()
         val reaction = Reaction.HATING
         viewModel.reactToSession(reaction)
     }

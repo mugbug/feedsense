@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -26,20 +27,31 @@
                 android:weightSum="1">
 
                 <AutoCompleteTextView
+                    android:id="@+id/plot_chart_with_session_field"
                     android:layout_width="0dp"
                     android:layout_weight="0.6"
                     android:layout_marginRight="10dp"
                     android:layout_height="match_parent"
                     android:textColor="@color/white"
-                    android:hint="numero da sessao"/>
+                    android:hint="número da sessão"/>
 
-                <Button
-                    android:id="@+id/plot_chart_with_session_button"
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_weight="0.4"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/primary_button"
-                    android:text="Buscar"/>
+                    android:layout_height="wrap_content">
+
+                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                        android:id="@+id/plot_chart_with_session_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/primary_button"
+                        android:text="Buscar"
+                        android:layout_gravity="center_horizontal"
+                        app:spinning_bar_padding="0dp"
+                        app:spinning_bar_color="@color/white"
+                        app:initialCornerAngle="1000dp"
+                        app:finalCornerAngle="1000dp" />
+                </FrameLayout>
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart

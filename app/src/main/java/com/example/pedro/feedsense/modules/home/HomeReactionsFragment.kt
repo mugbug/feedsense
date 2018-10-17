@@ -39,14 +39,18 @@ class HomeReactionsFragment: Fragment() {
         viewModel.showAlert.observe(this, Observer {
             if (it != null) {
                 (activity as? HomeActivity)?.showSimpleDialog(it)
-                home_join_session_button.revertAnimation()
             }
+            if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
+            if (home_create_session_button.isAnimating) home_create_session_button.revertAnimation()
         })
 
         viewModel.showToast.observe(this, Observer {
             if (it != null) {
                 (activity as? HomeActivity)?.showToast(it)
             }
+            if (green_button.isAnimating) green_button.revertAnimation()
+            if (yellow_button.isAnimating) yellow_button.revertAnimation()
+            if (red_button.isAnimating) red_button.revertAnimation()
         })
 
         viewModel.hideJoinSessionFields.observe(this, Observer {

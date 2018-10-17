@@ -1,23 +1,24 @@
 package com.example.pedro.feedsense.modules.home
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.pedro.feedsense.R
-import com.example.pedro.feedsense.parseToLineDataSet
-import com.example.pedro.feedsense.setTextColor
-import com.example.pedro.feedsense.useSimpleStyle
+import androidx.lifecycle.Observer
+import com.example.pedro.feedsense.*
+import com.example.pedro.feedsense.databinding.FragmentLineChartBinding
+import com.example.pedro.feedsense.modules.hideKeyboard
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import kotlinx.android.synthetic.main.fragment_line_chart.*
+import kotlinx.android.synthetic.main.fragment_line_chart.view.*
 import org.koin.android.architecture.ext.sharedViewModel
 
-class LineChartFragment: Fragment() {
+class LineChartFragment: Fragment(), View.OnClickListener {
 
     val viewModel: HomeViewModel by sharedViewModel()
 
@@ -29,33 +30,59 @@ class LineChartFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_line_chart, container, false)
+        val binding = DataBindingUtil.inflate<FragmentLineChartBinding>(inflater, R.layout.fragment_line_chart, container, false)
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
+        val view = binding.root
+        view.plot_chart_with_session_button.setOnClickListener(this)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        configureLineChart(activity!!.applicationContext)
+        setupObservers()
     }
 
-    private fun configureLineChart(context: Context) {
-        val entries = ArrayList<Entry>()
-        val entries1 = ArrayList<Entry>()
-        val entries2 = ArrayList<Entry>()
+    private fun setupObservers() {
+        viewModel.configureLineChart.observe(this, Observer {
+            if (it != null) configureLineChart(it)
+        })
 
-        val y: FloatArray = floatArrayOf(0f, 1f, 4f, 1f, 4f, 3f, 3f, 1f, 2f, 30f, 5f, 1f, 4f, 1f, 1f, 3f)
 
-        for (i in 0 until y.size) {
-            entries.add(Entry(i.toFloat(), y[i]))
-            entries1.add(Entry(i.toFloat()+1f, y[i] + i%2))
-            entries2.add(Entry(i.toFloat()+2f, y[i] - i%2))
+        viewModel.showAlert.observe(this, Observer {
+            if (it != null) {
+                (activity as? HomeActivity)?.showSimpleDialog(it)
+            }
+            if (plot_chart_with_session_button.isAnimating) plot_chart_with_session_button.revertAnimation()
+        })
+    }
+
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.plot_chart_with_session_button -> {
+                hideKeyboard(activity)
+                plot_chart_with_session_button.startAnimation()
+                val sessionId = plot_chart_with_session_field.text.toString()
+                viewModel.fetchReactions(sessionId)
+            }
+            else -> {}
         }
+    }
+
+    private fun configureLineChart(data: List<List<Entry>>) {
+        val context = activity!!.applicationContext
+        view?.plot_chart_with_session_button?.revertAnimation()
 
         val green = ContextCompat.getColor(context, R.color.green)
         val yellow = ContextCompat.getColor(context, R.color.yellow)
         val red = ContextCompat.getColor(context, R.color.red)
 
-        val dataSet = entries.parseToLineDataSet(green)
-        val dataSet1 = entries1.parseToLineDataSet(yellow)
-        val dataSet2 = entries2.parseToLineDataSet(red)
+        val dataSet = data[0].parseToLineDataSet(green)
+        val dataSet1 = data[1].parseToLineDataSet(yellow)
+        val dataSet2 = data[2].parseToLineDataSet(red)
+
+        // set marker
+//        val marker = CustomMarkerView(context, R.layout.line_chart_marker_view)
+//        line_chart.marker = marker
 
         val lineData = LineData(dataSet, dataSet1, dataSet2)
         line_chart.data = lineData
