@@ -46,6 +46,7 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/primary_button"
                         android:text="Buscar"
+                        android:layout_gravity="center_horizontal"
                         app:spinning_bar_padding="0dp"
                         app:spinning_bar_color="@color/white"
                         app:initialCornerAngle="1000dp"

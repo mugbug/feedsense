@@ -76,14 +76,22 @@ class HomeActivity : BaseActivity() {
         startActivity(intent)
     }
 
-//    @Suppress("UNUSED_PARAMETER")
-//    fun didTapCreateSession(view: View) {
-//        val pin = session_code_field.text.toString()
-//        viewModel.createSession(pin)
-//    }
+    @Suppress("UNUSED_PARAMETER")
+    fun didTapCreateSession(view: View) {
+        val pin = session_code_field.text.toString()
+        viewModel.createSession(pin, email)
+    }
 
     fun didTapWannaJoinSession(view: View) {
         join_session_fields.visibility = View.VISIBLE
+        home_create_session_button.visibility = View.GONE
+        home_join_session_button.visibility = View.VISIBLE
+    }
+
+    fun didTapWannaCreateSession(view: View) {
+        join_session_fields.visibility = View.VISIBLE
+        home_create_session_button.visibility = View.VISIBLE
+        home_join_session_button.visibility = View.GONE
     }
 
     private fun showReactionButtons() {

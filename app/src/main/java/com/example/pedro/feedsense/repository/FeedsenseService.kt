@@ -11,7 +11,7 @@ import java.util.*
 interface FeedsenseService {
 
     @POST("sessions")
-    fun createSession(@Body sessionModel: SessionModel): Observable<String>
+    fun createSession(@Body sessionModel: SessionModel): Completable
 
     @PUT("sessions/{sessionId}/{guestId}")
     fun joinSession(@Path("sessionId") sessionId: String,

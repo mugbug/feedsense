@@ -68,17 +68,17 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
         _hideJoinSessionFields.call()
     }
 
-    fun createSession(sessionId: String) {
+    fun createSession(sessionId: String, email: String?) {
         val currentTime = Calendar.getInstance().time
-        val sessionModel = SessionModel(sessionId, currentTime, "Pedro Zaroni")
+        val sessionModel = SessionModel(sessionId, currentTime, email ?: "")
 
         disposable = service.feedsenseService()
                 .createSession(sessionModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { _ -> treatCreateSessionWithSuccess(sessionId)},
-                    { error -> showAlert(error)}
+                    { treatCreateSessionWithSuccess(sessionId) },
+                    { error -> showAlert(error) }
                 )
     }
 

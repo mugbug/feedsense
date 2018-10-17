@@ -62,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/add_icon"
                 android:visibility="gone"
+                android:onClick="didTapWannaCreateSession"
                 app:fab_colorNormal="@color/green"
                 app:fab_colorPressed="@color/green"
                 app:fab_colorRipple="@color/green"

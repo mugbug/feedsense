@@ -84,7 +84,22 @@
                         app:spinning_bar_color="@color/white"
                         app:initialCornerAngle="1000dp"
                         app:finalCornerAngle="1000dp"/>
+
+
+                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                        android:id="@+id/home_create_session_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Criar e conectar"
+                        android:background="@drawable/primary_button"
+                        android:onClick="didTapCreateSession"
+                        android:layout_gravity="center_horizontal"
+                        app:spinning_bar_padding="0dp"
+                        app:spinning_bar_color="@color/white"
+                        app:initialCornerAngle="1000dp"
+                        app:finalCornerAngle="1000dp"/>
                 </FrameLayout>
+
             </LinearLayout>
 
             <LinearLayout
