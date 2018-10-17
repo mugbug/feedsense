@@ -41,6 +41,7 @@ class HomeReactionsFragment: Fragment() {
                 (activity as? HomeActivity)?.showSimpleDialog(it)
             }
             if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
+            if (home_create_session_button.isAnimating) home_create_session_button.revertAnimation()
         })
 
         viewModel.showToast.observe(this, Observer {

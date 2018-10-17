@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.pedro.feedsense.*
 import com.example.pedro.feedsense.databinding.FragmentLineChartBinding
+import com.example.pedro.feedsense.modules.hideKeyboard
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import kotlinx.android.synthetic.main.fragment_line_chart.*
@@ -58,6 +59,7 @@ class LineChartFragment: Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.plot_chart_with_session_button -> {
+                hideKeyboard(activity)
                 plot_chart_with_session_button.startAnimation()
                 val sessionId = plot_chart_with_session_field.text.toString()
                 viewModel.fetchReactions(sessionId)

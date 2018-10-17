@@ -43,6 +43,7 @@ class HomeActivity : BaseActivity() {
         val adapter = HomePagerAdapter(supportFragmentManager)
 
         email = prefs["email"]
+        viewModel.userToken = email ?: ""
         isUser = email != null
 
         if (isUser) {
@@ -68,7 +69,7 @@ class HomeActivity : BaseActivity() {
     }
 
     // Actions
-
+    @Suppress("UNUSED_PARAMETER")
     fun didTapLogout(view: View) {
         defaultPrefs(this).edit().clear().apply()
         val intent = Intent(this, LoginActivity::class.java)
@@ -78,16 +79,20 @@ class HomeActivity : BaseActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapCreateSession(view: View) {
+        hideKeyboard(this)
+        home_create_session_button.startAnimation()
         val pin = session_code_field.text.toString()
-        viewModel.createSession(pin, email)
+        viewModel.createSession(pin)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun didTapWannaJoinSession(view: View) {
         join_session_fields.visibility = View.VISIBLE
         home_create_session_button.visibility = View.GONE
         home_join_session_button.visibility = View.VISIBLE
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun didTapWannaCreateSession(view: View) {
         join_session_fields.visibility = View.VISIBLE
         home_create_session_button.visibility = View.VISIBLE

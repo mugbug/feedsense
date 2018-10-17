@@ -10,14 +10,14 @@ import com.github.mikephil.charting.data.Entry
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.math.BigDecimal
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
     private var disposable: Disposable? = null
-    private val guestId = "pedro@zaroni.com"
+
+    var userToken = ""
 
     private val _currentSession = MutableLiveData<String>()
     var currentSession: LiveData<String> = _currentSession
@@ -51,7 +51,7 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
     fun joinSession(sessionId: String) {
 
         disposable = service.feedsenseService()
-                .joinSession(sessionId, guestId)
+                .joinSession(sessionId, userToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -62,15 +62,15 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
     private fun treatJoinSessionWithSuccess(sessionId: String) {
         _currentSession.value = sessionId
-        val alert = Alert("Sucesso!", "Voce se conectou a sessao $sessionId", "Ok")
+        val alert = Alert("Sucesso!", "Você se conectou à sessão $sessionId", "Ok")
         _showAlert.value = alert
         _showAlert.call()
         _hideJoinSessionFields.call()
     }
 
-    fun createSession(sessionId: String, email: String?) {
+    fun createSession(sessionId: String) {
         val currentTime = Calendar.getInstance().time
-        val sessionModel = SessionModel(sessionId, currentTime, email ?: "")
+        val sessionModel = SessionModel(sessionId, currentTime, userToken)
 
         disposable = service.feedsenseService()
                 .createSession(sessionModel)
@@ -83,6 +83,8 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     private fun treatCreateSessionWithSuccess(sessionId: String) {
+        _currentSession.value = sessionId
+        joinSession(sessionId)
         val alert = Alert("Sucesso!", "sessão $sessionId criada com sucesso!", "Ok")
         _showAlert.value = alert
         _showAlert.call()
@@ -94,7 +96,7 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
             return
         }
         val currentTime = Calendar.getInstance().time
-        val reactionModel = ReactionModel(_currentSession.value ?: "", guestId, reaction, currentTime)
+        val reactionModel = ReactionModel(_currentSession.value ?: "", userToken, reaction, currentTime)
         disposable = service.feedsenseService()
                 .reactToSession(reactionModel)
                 .subscribeOn(Schedulers.io())
