@@ -49,9 +49,7 @@ class LineChartFragment: Fragment(), View.OnClickListener {
 
 
         viewModel.showAlert.observe(this, Observer {
-            if (it != null) {
-                (activity as? HomeActivity)?.showSimpleDialog(it)
-            }
+            if (it != null) (activity as? HomeActivity)?.showSimpleDialog(it)
             if (plot_chart_with_session_button.isAnimating) plot_chart_with_session_button.revertAnimation()
         })
     }

@@ -15,14 +15,19 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
-### beta
+### fabric
 ```
-fastlane beta
+fastlane fabric
 ```
 
 ### bump_version
 ```
 fastlane bump_version
+```
+
+### run_tests
+```
+fastlane run_tests
 ```
 
 

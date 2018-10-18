@@ -20,11 +20,8 @@ env:
     - ADB_INSTALL_TIMEOUT=8
 # Run assemble and unit tests
 script:
-  - ./gradlew clean assembleDebug assembleRelease testDebug --stacktrace --no-daemon
-after_script:
-  - bundle exec fastlane beta
+  - bundle exec fastlane fabric
 before_install:
-  - chmod +x gradlew
   - bundle install
 branches:
   only:

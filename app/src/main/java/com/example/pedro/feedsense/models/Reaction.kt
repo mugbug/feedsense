@@ -13,9 +13,3 @@ data class ReactionModel(
         val guestId: String,
         val guestComment: Reaction,
         val timestamp: Date)
-
-data class ReactionEntry(
-        val loving: Int,
-        val whatever: Int,
-        val hating: Int,
-        val timestamp: Date)

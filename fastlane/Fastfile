@@ -13,8 +13,10 @@ default_platform :android
 # Fastfile actions accept additional configuration, but
 # don't worry, fastlane will prompt you for required
 # info which you can add here later
-lane :beta do
-  
+lane :fabric do
+
+  run_tests()
+
   # build the release variant
   gradle(
     task: 'assemble',
@@ -41,3 +43,11 @@ lane :bump_version do
   )
 end
 
+lane :run_tests do
+
+  # run tests
+  gradle(
+    task: 'test',
+    build_type: 'Debug'
+  )
+end

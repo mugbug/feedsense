@@ -1,6 +1,5 @@
 package com.example.pedro.feedsense.modules.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.pedro.feedsense.SingleLiveEvent
@@ -39,18 +38,13 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { _ -> treatJoinSessionWithSuccess(sessionId) },
-                        { error -> treatJoinSessionWithFailure(error) }
+                        { error -> showErrorAlert(error) }
                 )
     }
 
     fun treatJoinSessionWithSuccess(sessionId: String) {
         _showHomeScreenForGuest.value = sessionId
         _showHomeScreenForGuest.call()
-    }
-
-    private fun treatJoinSessionWithFailure(error: Throwable?) {
-        _stopLoading.call()
-        Log.e("tag", error?.message)
     }
 
     fun performLogin(email: String, password: String) {
@@ -78,7 +72,7 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { _ -> treatRegisterSuccess(user.email) },
-                        { error -> treatRegisterError(error) }
+                        { error -> showErrorAlert(error) }
                 )
     }
 
@@ -87,7 +81,7 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
         _showHomeScreenForUser.call()
     }
 
-    fun treatRegisterError(error: Throwable?) {
+    fun showErrorAlert(error: Throwable?) {
         val alert = Alert("Oops!", error?.message ?: "", "Ok")
         _showAlert.value = alert
         _showAlert.call()
