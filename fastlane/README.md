@@ -30,11 +30,6 @@ fastlane bump_version
 fastlane run_tests
 ```
 
-### call_lane
-```
-fastlane call_lane
-```
-
 
 ----
 
