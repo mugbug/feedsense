@@ -29,20 +29,8 @@ class LoginActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // starts Crashlytics for project
-        Fabric.with(this, Crashlytics())
-
-        prefs = defaultPrefs(this)
-
-        val isLogged: Boolean? = prefs[PreferenceHelper.IS_LOGGED]
-        if (isLogged == true) {
-            val next = Intent(this, HomeActivity::class.java)
-            finish()
-            startActivity(next)
-        }
-
         setContentView(R.layout.activity_login)
+        prefs = defaultPrefs(this)
 
         val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(
                 this,
@@ -57,11 +45,11 @@ class LoginActivity: BaseActivity() {
 
     private fun setupObservers() {
         viewModel.showHomeScreenForGuest.observe(this, Observer {
-            showHomeScreenForGuest(it)
+            if (it != null) showHomeScreenForGuest(it)
         })
 
         viewModel.showHomeScreenForUser.observe(this, Observer {
-            showHomeScreenForUser(it)
+            if (it != null) showHomeScreenForUser(it)
         })
 
         viewModel.stopLoading.observe(this, Observer {
@@ -69,9 +57,7 @@ class LoginActivity: BaseActivity() {
         })
 
         viewModel.showAlert.observe(this, Observer {
-            if (it != null) {
-                showSimpleDialog(it)
-            }
+            if (it != null) showSimpleDialog(it)
         })
     }
 
@@ -118,15 +104,17 @@ class LoginActivity: BaseActivity() {
         prefs[PreferenceHelper.SESSION_ID] = sessionId
         prefs[PreferenceHelper.IS_LOGGED] = true
 
-        val next = Intent(this, HomeActivity::class.java)
-        finish()
-        startActivity(next)
+        goToHomeScreen()
     }
 
     private fun showHomeScreenForUser(email: String) {
         prefs[PreferenceHelper.EMAIL] = email
         prefs[PreferenceHelper.IS_LOGGED] = true
 
+        goToHomeScreen()
+    }
+
+    private fun goToHomeScreen() {
         val next = Intent(this, HomeActivity::class.java)
         finish()
         startActivity(next)
