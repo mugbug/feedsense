@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class HomeViewModel(private val service: NetworkServices): ViewModel() {
+open class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
     private var disposable: Disposable? = null
 
@@ -123,16 +123,16 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
         _showToast.call()
     }
 
-    private fun refreshLineChartForReactions(reactions: List<ReactionModel>) {
-        val sortedReactions = reactions.sortedBy { it.timestamp }
+    fun parseReactionsToLineChartEntries(reactions: List<ReactionModel>): List<List<Entry>> {
+        val chartData = ArrayList<List<Entry>>()
         var lovingEntries = ArrayList<Entry>()
         var whateverEntries = ArrayList<Entry>()
         var hatingEntries = ArrayList<Entry>()
         var lovingCount = 0f
         var whateverCount = 0f
         var hatingCount = 0f
-        var startTime = sortedReactions[0].timestamp.time
-        sortedReactions.forEach {
+        var startTime = reactions.firstOrNull()?.let { it.timestamp?.time } ?: return chartData
+        reactions.forEach {
             val timestamp = TimeUnit.MILLISECONDS.toSeconds((it.timestamp.time - startTime)).toFloat()
             when (it.guestComment) {
                 Reaction.LOVING -> lovingCount += 1
@@ -143,10 +143,15 @@ class HomeViewModel(private val service: NetworkServices): ViewModel() {
             whateverEntries.add(Entry(timestamp, whateverCount))
             hatingEntries.add(Entry(timestamp, hatingCount))
         }
-        val chartData = ArrayList<List<Entry>>()
         chartData.add(lovingEntries)
         chartData.add(whateverEntries)
         chartData.add(hatingEntries)
+        return chartData
+    }
+
+    private fun refreshLineChartForReactions(reactions: List<ReactionModel>) {
+        val sortedReactions = reactions.sortedBy { it.timestamp }
+        val chartData = parseReactionsToLineChartEntries(sortedReactions)
         _configureLineChart.value = chartData
         _configureLineChart.call()
     }
