@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="horizontalMargin">10dp</dimen>
+    <dimen name="horizontalMargin">20dp</dimen>
     <dimen name="verticalMargin">100dp</dimen>
 
     <dimen name="buttonHorizontalMargin">5dp</dimen>

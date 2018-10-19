@@ -48,6 +48,7 @@ class HomeActivity : BaseActivity() {
 
         if (isUser) {
             home_create_session_fab.visibility = View.VISIBLE
+            home_show_chart.visibility = View.VISIBLE
             adapter.pages.add(LineChartFragment.newInstance())
         }
         adapter.pages.add(HomeReactionsFragment.newInstance())
@@ -70,6 +71,20 @@ class HomeActivity : BaseActivity() {
 
     // Actions
     @Suppress("UNUSED_PARAMETER")
+    fun didTapShowChart(view: View) {
+        pager.currentItem = 0
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun didTapShowReactions(view: View) {
+        switchToReactionsPage()
+    }
+
+    private fun switchToReactionsPage() {
+        pager.currentItem = if (isUser) 1 else 0
+    }
+
+    @Suppress("UNUSED_PARAMETER")
     fun didTapLogout(view: View) {
         defaultPrefs(this).edit().clear().apply()
         val intent = Intent(this, LoginActivity::class.java)
@@ -87,6 +102,8 @@ class HomeActivity : BaseActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapWannaJoinSession(view: View) {
+        switchToReactionsPage()
+        home_fab_menu.close(true)
         join_session_fields.visibility = View.VISIBLE
         home_create_session_button.visibility = View.GONE
         home_join_session_button.visibility = View.VISIBLE
@@ -94,6 +111,8 @@ class HomeActivity : BaseActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapWannaCreateSession(view: View) {
+        switchToReactionsPage()
+        home_fab_menu.close(true)
         join_session_fields.visibility = View.VISIBLE
         home_create_session_button.visibility = View.VISIBLE
         home_join_session_button.visibility = View.GONE
