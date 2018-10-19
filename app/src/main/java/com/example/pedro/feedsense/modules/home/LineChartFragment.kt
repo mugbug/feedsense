@@ -59,7 +59,7 @@ class LineChartFragment: Fragment(), View.OnClickListener {
             R.id.plot_chart_with_session_button -> {
                 hideKeyboard(activity)
                 plot_chart_with_session_button.startAnimation()
-                val sessionId = plot_chart_with_session_field.text.toString()
+                val sessionId = plot_chart_with_session_field.selectedItem.toString()
                 viewModel.fetchReactions(sessionId)
             }
             else -> {}

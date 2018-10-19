@@ -114,7 +114,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     private fun reactedToSessionWithSuccess() {
-        _showToast.value = "Reação enviada!"
+        _showToast.value = "Obrigado pelo seu feedback!"
         _showToast.call()
     }
 

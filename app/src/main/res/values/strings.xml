@@ -3,4 +3,10 @@
     <string name="insert_session_code">Insira o codigo da sessao:</string>
     <string name="submit_code">Enviar</string>
     <string name="join_session">Entrar na sessao</string>
+    <string-array name="sessions_list">
+        <item>005</item>
+        <item>006</item>
+        <item>012</item>
+        <item>013</item>
+    </string-array>
 </resources>
