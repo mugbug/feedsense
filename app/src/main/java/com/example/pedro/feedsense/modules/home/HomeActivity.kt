@@ -5,6 +5,9 @@ import android.content.SharedPreferences
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentPagerAdapter
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.example.pedro.feedsense.*
@@ -107,6 +110,7 @@ class HomeActivity : BaseActivity() {
         join_session_fields.visibility = View.VISIBLE
         home_create_session_button.visibility = View.GONE
         home_join_session_button.visibility = View.VISIBLE
+        reaction_buttons.setMargins(top = 0)
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -116,6 +120,7 @@ class HomeActivity : BaseActivity() {
         join_session_fields.visibility = View.VISIBLE
         home_create_session_button.visibility = View.VISIBLE
         home_join_session_button.visibility = View.GONE
+        reaction_buttons.setMargins(top = 0)
     }
 
     private fun showReactionButtons() {
