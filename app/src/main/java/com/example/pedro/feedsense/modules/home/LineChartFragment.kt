@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -58,6 +59,7 @@ class LineChartFragment: Fragment(), View.OnClickListener {
         when (view?.id) {
             R.id.plot_chart_with_session_button -> {
                 hideKeyboard(activity)
+                updateSessionsSpinner()
                 plot_chart_with_session_button.startAnimation()
                 val sessionId = plot_chart_with_session_field.selectedItem.toString()
                 viewModel.fetchReactions(sessionId)
@@ -91,4 +93,14 @@ class LineChartFragment: Fragment(), View.OnClickListener {
         line_chart.invalidate()
     }
 
+    fun updateSessionsSpinner() {
+        val context = activity!!.applicationContext
+        val sessions = ArrayList<String>()
+        sessions.add("001")
+        sessions.add("002")
+
+        val adapter = ArrayAdapter<String>(context, R.layout.spinner_item, sessions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        plot_chart_with_session_field.adapter = adapter
+    }
 }
