@@ -5,7 +5,11 @@ import android.content.SharedPreferences
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.example.pedro.feedsense.*
 import com.example.pedro.feedsense.PreferenceHelper.defaultPrefs
@@ -20,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_home_reactions.*
 import kotlinx.android.synthetic.main.fragment_line_chart.*
 import org.koin.android.architecture.ext.viewModel
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     val viewModel: HomeViewModel by viewModel()
     lateinit var prefs: SharedPreferences
@@ -48,10 +52,12 @@ class HomeActivity : BaseActivity() {
 
         if (isUser) {
             home_create_session_fab.visibility = View.VISIBLE
+            home_show_chart.visibility = View.VISIBLE
             adapter.pages.add(LineChartFragment.newInstance())
         }
         adapter.pages.add(HomeReactionsFragment.newInstance())
         pager.adapter = adapter
+        pager.addOnPageChangeListener(this)
 
         pager.post {
             pager.currentItem = adapter.count
@@ -68,7 +74,35 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    // Pager implementations
+
+    override fun onPageScrollStateChanged(state: Int) {
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+    }
+
+    override fun onPageSelected(position: Int) {
+        if (position == 0 && isUser) {
+            viewModel.lineGraphPageSelected()
+        }
+    }
+
     // Actions
+    @Suppress("UNUSED_PARAMETER")
+    fun didTapShowChart(view: View) {
+        pager.currentItem = 0
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun didTapShowReactions(view: View) {
+        switchToReactionsPage()
+    }
+
+    private fun switchToReactionsPage() {
+        pager.currentItem = if (isUser) 1 else 0
+    }
+
     @Suppress("UNUSED_PARAMETER")
     fun didTapLogout(view: View) {
         defaultPrefs(this).edit().clear().apply()
@@ -87,16 +121,22 @@ class HomeActivity : BaseActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapWannaJoinSession(view: View) {
+        switchToReactionsPage()
+        home_fab_menu.close(true)
         join_session_fields.visibility = View.VISIBLE
         home_create_session_button.visibility = View.GONE
         home_join_session_button.visibility = View.VISIBLE
+        reaction_buttons.setMargins(top = 0)
     }
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapWannaCreateSession(view: View) {
+        switchToReactionsPage()
+        home_fab_menu.close(true)
         join_session_fields.visibility = View.VISIBLE
         home_create_session_button.visibility = View.VISIBLE
         home_join_session_button.visibility = View.GONE
+        reaction_buttons.setMargins(top = 0)
     }
 
     private fun showReactionButtons() {

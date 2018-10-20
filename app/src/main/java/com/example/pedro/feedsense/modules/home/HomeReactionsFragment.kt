@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.pedro.feedsense.R
 import com.example.pedro.feedsense.databinding.FragmentHomeReactionsBinding
+import com.example.pedro.feedsense.setMargins
 import kotlinx.android.synthetic.main.fragment_home_reactions.*
 import kotlinx.android.synthetic.main.fragment_line_chart.*
 import org.koin.android.architecture.ext.sharedViewModel
@@ -57,6 +58,7 @@ class HomeReactionsFragment: Fragment() {
     }
 
     private fun shouldHideJoinSessionFields() {
+        reaction_buttons.setMargins(top = 100)
         join_session_fields.visibility = View.GONE
         session_code_field.setText("")
         session_code_field.clearFocus()

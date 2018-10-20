@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.Entry
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -18,6 +19,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private var disposable: Disposable? = null
 
     var userToken = ""
+    private val dateFormat = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
 
     private val _currentSession = MutableLiveData<String>()
     var currentSession: LiveData<String> = _currentSession
@@ -39,6 +41,10 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private val _configureLineChart = SingleLiveEvent<List<List<Entry>>?>()
     val configureLineChart: LiveData<List<List<Entry>>?>
         get() = _configureLineChart
+
+    private val _updateSessionsSpinner = SingleLiveEvent<List<String>>()
+    val updateSessionsSpinner: LiveData<List<String>?>
+        get() = _updateSessionsSpinner
 
     init {
         _currentSession.value = "-"
@@ -114,7 +120,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     private fun reactedToSessionWithSuccess() {
-        _showToast.value = "Reação enviada!"
+        _showToast.value = "Obrigado pelo seu feedback!"
         _showToast.call()
     }
 
@@ -163,6 +169,28 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { reactions -> refreshLineChartForReactions(reactions) },
+                        { error -> showAlert(error) }
+                )
+    }
+
+    private fun updateSessionsSpinnerValues(sessions: List<SessionModel>) {
+        val formattedSessions = sessions
+                .sortedByDescending { it.time }
+                .map {
+            val formatedDate = dateFormat.format(it.time)
+            it.pin + " - " + formatedDate
+        }
+        _updateSessionsSpinner.value = formattedSessions
+        _updateSessionsSpinner.call()
+    }
+
+    fun lineGraphPageSelected() {
+        disposable = service.feedsenseService()
+                .fetchSessions()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { sessions -> updateSessionsSpinnerValues(sessions) },
                         { error -> showAlert(error) }
                 )
     }

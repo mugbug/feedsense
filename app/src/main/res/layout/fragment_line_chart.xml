@@ -26,11 +26,12 @@
                 android:layout_marginHorizontal="20dp"
                 android:weightSum="1">
 
-                <AutoCompleteTextView
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/plot_chart_with_session_field"
                     android:layout_width="0dp"
                     android:layout_weight="0.6"
                     android:layout_marginRight="10dp"
+                    android:popupBackground="@color/darkGray_212121"
                     android:layout_height="match_parent"
                     android:textColor="@color/white"
                     android:hint="número da sessão"/>
@@ -45,7 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/primary_button"
-                        android:text="Buscar"
+                        android:text="Exibir"
                         android:layout_gravity="center_horizontal"
                         app:spinning_bar_padding="0dp"
                         app:spinning_bar_color="@color/white"
