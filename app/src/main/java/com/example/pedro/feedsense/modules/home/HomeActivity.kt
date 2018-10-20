@@ -28,7 +28,7 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     val viewModel: HomeViewModel by viewModel()
     lateinit var prefs: SharedPreferences
-    private var email: String? = null
+    private var userToken: String? = null
     private var isUser = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +46,9 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
         val adapter = HomePagerAdapter(supportFragmentManager)
 
-        email = prefs["email"]
-        viewModel.userToken = email ?: ""
-        isUser = email != null
+        userToken = prefs[PreferenceHelper.TOKEN]
+        viewModel.userToken = userToken ?: ""
+        isUser = userToken != null
 
         if (isUser) {
             home_create_session_fab.visibility = View.VISIBLE

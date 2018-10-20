@@ -27,5 +27,8 @@ interface FeedsenseService {
     fun fetchReactions(@Path("sessionId") sessionId: String): Observable<List<ReactionModel>>
 
     @POST("users")
-    fun registerUser(@Body user: User): Observable<User>
+    fun registerUser(@Body user: User): Observable<String>
+
+    @POST("login")
+    fun login(@Body user: User): Observable<String>
 }

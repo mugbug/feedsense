@@ -48,9 +48,16 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     fun performLogin(email: String, password: String) {
-        // perform request for login
-        _showHomeScreenForUser.value = email
-        _showHomeScreenForUser.call()
+        val user = User(email, password, true, "")
+        disposable = service.feedsenseService()
+                .login(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { token -> treatUserAuthorizationSuccess(token) },
+                        { error -> showErrorAlert(error) }
+                )
+
     }
 
     fun register(email: String, password: String, checkPassword: String) {
@@ -71,13 +78,13 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { _ -> treatRegisterSuccess(user.email) },
+                        { token -> treatUserAuthorizationSuccess(token) },
                         { error -> showErrorAlert(error) }
                 )
     }
 
-    private fun treatRegisterSuccess(email: String) {
-        _showHomeScreenForUser.value = email
+    private fun treatUserAuthorizationSuccess(token: String) {
+        _showHomeScreenForUser.value = token
         _showHomeScreenForUser.call()
     }
 

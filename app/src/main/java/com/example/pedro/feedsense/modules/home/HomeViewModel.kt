@@ -56,7 +56,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
     fun joinSession(sessionId: String) {
 
-        disposable = service.feedsenseService()
+        disposable = service.feedsenseService(userToken)
                 .joinSession(sessionId, userToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

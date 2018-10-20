@@ -6,7 +6,7 @@ import android.preference.PreferenceManager
 
 object PreferenceHelper {
 
-    const val EMAIL = "email"
+    const val TOKEN = "userToken"
     const val SESSION_ID = "sessionId"
     const val IS_LOGGED = "logged"
 
