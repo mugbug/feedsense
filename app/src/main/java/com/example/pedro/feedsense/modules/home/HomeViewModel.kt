@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.Entry
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -18,6 +19,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private var disposable: Disposable? = null
 
     var userToken = ""
+    private val dateFormat = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
 
     private val _currentSession = MutableLiveData<String>()
     var currentSession: LiveData<String> = _currentSession
@@ -172,8 +174,11 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     private fun updateSessionsSpinnerValues(sessions: List<SessionModel>) {
-        val formattedSessions = sessions.map {
-            it.pin + " - " + it.time.toString()
+        val formattedSessions = sessions
+                .sortedByDescending { it.time }
+                .map {
+            val formatedDate = dateFormat.format(it.time)
+            it.pin + " - " + formatedDate
         }
         _updateSessionsSpinner.value = formattedSessions
         _updateSessionsSpinner.call()

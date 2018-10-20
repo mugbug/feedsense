@@ -34,8 +34,7 @@
                     android:popupBackground="@color/darkGray_212121"
                     android:layout_height="match_parent"
                     android:textColor="@color/white"
-                    android:hint="número da sessão"
-                    android:entries="@array/sessions_list"/>
+                    android:hint="número da sessão"/>
 
                 <FrameLayout
                     android:layout_width="0dp"
