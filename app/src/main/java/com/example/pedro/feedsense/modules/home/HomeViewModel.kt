@@ -40,6 +40,10 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     val configureLineChart: LiveData<List<List<Entry>>?>
         get() = _configureLineChart
 
+    private val _updateSessionsSpinner = SingleLiveEvent<List<String>>()
+    val updateSessionsSpinner: LiveData<List<String>?>
+        get() = _updateSessionsSpinner
+
     init {
         _currentSession.value = "-"
     }
@@ -163,6 +167,25 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { reactions -> refreshLineChartForReactions(reactions) },
+                        { error -> showAlert(error) }
+                )
+    }
+
+    private fun updateSessionsSpinnerValues(sessions: List<SessionModel>) {
+        val formattedSessions = sessions.map {
+            it.pin + " - " + it.time.toString()
+        }
+        _updateSessionsSpinner.value = formattedSessions
+        _updateSessionsSpinner.call()
+    }
+
+    fun lineGraphPageSelected() {
+        disposable = service.feedsenseService()
+                .fetchSessions()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { sessions -> updateSessionsSpinnerValues(sessions) },
                         { error -> showAlert(error) }
                 )
     }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.example.pedro.feedsense.*
 import com.example.pedro.feedsense.PreferenceHelper.defaultPrefs
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_home_reactions.*
 import kotlinx.android.synthetic.main.fragment_line_chart.*
 import org.koin.android.architecture.ext.viewModel
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     val viewModel: HomeViewModel by viewModel()
     lateinit var prefs: SharedPreferences
@@ -56,6 +57,7 @@ class HomeActivity : BaseActivity() {
         }
         adapter.pages.add(HomeReactionsFragment.newInstance())
         pager.adapter = adapter
+        pager.addOnPageChangeListener(this)
 
         pager.post {
             pager.currentItem = adapter.count
@@ -69,6 +71,20 @@ class HomeActivity : BaseActivity() {
         if (sessionId != null) {
             viewModel.setCurrentSession(sessionId)
             showReactionButtons()
+        }
+    }
+
+    // Pager implementations
+
+    override fun onPageScrollStateChanged(state: Int) {
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+    }
+
+    override fun onPageSelected(position: Int) {
+        if (position == 0 && isUser) {
+            viewModel.lineGraphPageSelected()
         }
     }
 

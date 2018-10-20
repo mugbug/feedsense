@@ -48,6 +48,9 @@ class LineChartFragment: Fragment(), View.OnClickListener {
             if (it != null) configureLineChart(it)
         })
 
+        viewModel.updateSessionsSpinner.observe(this, Observer {
+            if (it != null) updateSessionsSpinner(it)
+        })
 
         viewModel.showAlert.observe(this, Observer {
             if (it != null) (activity as? HomeActivity)?.showSimpleDialog(it)
@@ -59,9 +62,8 @@ class LineChartFragment: Fragment(), View.OnClickListener {
         when (view?.id) {
             R.id.plot_chart_with_session_button -> {
                 hideKeyboard(activity)
-                updateSessionsSpinner()
                 plot_chart_with_session_button.startAnimation()
-                val sessionId = plot_chart_with_session_field.selectedItem.toString()
+                val sessionId = plot_chart_with_session_field.selectedItem.toString().split(" - ").first()
                 viewModel.fetchReactions(sessionId)
             }
             else -> {}
@@ -93,11 +95,8 @@ class LineChartFragment: Fragment(), View.OnClickListener {
         line_chart.invalidate()
     }
 
-    fun updateSessionsSpinner() {
+    private fun updateSessionsSpinner(sessions: List<String>) {
         val context = activity!!.applicationContext
-        val sessions = ArrayList<String>()
-        sessions.add("001")
-        sessions.add("002")
 
         val adapter = ArrayAdapter<String>(context, R.layout.spinner_item, sessions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
