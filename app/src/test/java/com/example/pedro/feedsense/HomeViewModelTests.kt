@@ -25,7 +25,7 @@ class HomeViewModelTests {
     fun testParseToEntriesForLovingReaction() {
         val reactions = ArrayList<ReactionModel>()
         val startDate = Date(10)
-        reactions.add(ReactionModel("1", "id", Reaction.LOVING, startDate))
+        reactions.add(ReactionModel("1", Reaction.LOVING, startDate))
         val listOfEntries = viewModel.parseReactionsToLineChartEntries(reactions)
 
         listOfEntries.size `should equal` 3
@@ -47,7 +47,7 @@ class HomeViewModelTests {
     fun testParseToEntriesForWhateverReaction() {
         val reactions = ArrayList<ReactionModel>()
         val startDate = Date(10)
-        reactions.add(ReactionModel("1", "id", Reaction.WHATEVER, startDate))
+        reactions.add(ReactionModel("1", Reaction.WHATEVER, startDate))
         val listOfEntries = viewModel.parseReactionsToLineChartEntries(reactions)
 
         listOfEntries.size `should equal` 3
@@ -70,7 +70,7 @@ class HomeViewModelTests {
     fun testParseToEntriesForHatingReaction() {
         val reactions = ArrayList<ReactionModel>()
         val startDate = Date(10)
-        reactions.add(ReactionModel("1", "id", Reaction.HATING, startDate))
+        reactions.add(ReactionModel("1", Reaction.HATING, startDate))
         val listOfEntries = viewModel.parseReactionsToLineChartEntries(reactions)
 
         listOfEntries.size `should equal` 3
@@ -92,9 +92,9 @@ class HomeViewModelTests {
     fun testParseToEntriesForMultipleReactions() {
         val reactions = ArrayList<ReactionModel>()
         val startDate = Date(1000)
-        reactions.add(ReactionModel("1", "id", Reaction.LOVING, startDate))
-        reactions.add(ReactionModel("1", "id", Reaction.LOVING, Date(3000)))
-        reactions.add(ReactionModel("1", "id", Reaction.LOVING, Date(6000)))
+        reactions.add(ReactionModel("1", Reaction.LOVING, startDate))
+        reactions.add(ReactionModel("1", Reaction.LOVING, Date(3000)))
+        reactions.add(ReactionModel("1", Reaction.LOVING, Date(6000)))
         val listOfEntries = viewModel.parseReactionsToLineChartEntries(reactions)
 
         listOfEntries.size `should equal` 3
