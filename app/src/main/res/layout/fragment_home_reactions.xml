@@ -61,9 +61,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:inputType="number"
                     android:layout_marginBottom="15dp"
-                    android:hint="digite o número da sessão"/>
+                    android:hint="digite o código da sessão"/>
 
                 <FrameLayout
                     android:layout_width="match_parent"
