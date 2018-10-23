@@ -19,7 +19,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private var disposable: Disposable? = null
 
     var userToken = ""
-    private val dateFormat = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+    private val dateFormat = SimpleDateFormat("dd/M/yyyy HH:mm:ss")
 
     private val _currentSession = MutableLiveData<String>()
     var currentSession: LiveData<String> = _currentSession
