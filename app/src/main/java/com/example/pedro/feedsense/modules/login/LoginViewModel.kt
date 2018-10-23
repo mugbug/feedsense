@@ -33,11 +33,11 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
     fun joinSession(sessionId: String) {
 
         disposable = service.feedsenseService()
-                .joinSession(sessionId, "")
+                .joinSession(sessionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { _ -> treatJoinSessionWithSuccess(sessionId) },
+                        { treatJoinSessionWithSuccess(sessionId) },
                         { error -> showErrorAlert(error) }
                 )
     }
