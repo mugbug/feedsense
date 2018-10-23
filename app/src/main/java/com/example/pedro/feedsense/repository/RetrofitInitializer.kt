@@ -28,7 +28,6 @@ class RetrofitInitializer: NetworkServices {
 
     override fun feedsenseService(authToken: String?): FeedsenseService {
 
-
         if (authToken != null && !authToken.isEmpty()) {
             val interceptor = Interceptor { chain ->
                 val originalRequest = chain.request()
