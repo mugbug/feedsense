@@ -10,6 +10,5 @@ enum class Reaction(val reaction: String) {
 
 data class ReactionModel(
         val pin: String,
-        val guestId: String,
         val guestComment: Reaction,
         val timestamp: Date)

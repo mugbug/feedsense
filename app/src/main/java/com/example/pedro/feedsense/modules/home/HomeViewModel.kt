@@ -19,7 +19,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private var disposable: Disposable? = null
 
     var userToken = ""
-    private val dateFormat = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+    private val dateFormat = SimpleDateFormat("dd/M/yyyy HH:mm:ss")
 
     private val _currentSession = MutableLiveData<String>()
     var currentSession: LiveData<String> = _currentSession
@@ -56,12 +56,12 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
     fun joinSession(sessionId: String) {
 
-        disposable = service.feedsenseService()
-                .joinSession(sessionId, userToken)
+        disposable = service.feedsenseService(userToken)
+                .joinSession(sessionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { _ -> treatJoinSessionWithSuccess(sessionId) },
+                        { treatJoinSessionWithSuccess(sessionId) },
                         { error -> showAlert(error) }
                 )
     }
@@ -76,9 +76,9 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
     fun createSession(sessionId: String) {
         val currentTime = Calendar.getInstance().time
-        val sessionModel = SessionModel(sessionId, currentTime, userToken)
+        val sessionModel = SessionModel(sessionId, currentTime, userToken, true)
 
-        disposable = service.feedsenseService()
+        disposable = service.feedsenseService(userToken)
                 .createSession(sessionModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -91,7 +91,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private fun treatCreateSessionWithSuccess(sessionId: String) {
         _currentSession.value = sessionId
         joinSession(sessionId)
-        val alert = Alert("Sucesso!", "sessão $sessionId criada com sucesso!", "Ok")
+        val alert = Alert("Sucesso!", "Sessão $sessionId criada com sucesso!", "Ok")
         _showAlert.value = alert
         _showAlert.call()
     }
@@ -102,7 +102,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
             return
         }
         val currentTime = Calendar.getInstance().time
-        val reactionModel = ReactionModel(_currentSession.value ?: "", userToken, reaction, currentTime)
+        val reactionModel = ReactionModel(_currentSession.value ?: "", reaction, currentTime)
         disposable = service.feedsenseService()
                 .reactToSession(reactionModel)
                 .subscribeOn(Schedulers.io())
@@ -131,13 +131,13 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
     fun parseReactionsToLineChartEntries(reactions: List<ReactionModel>): List<List<Entry>> {
         val chartData = ArrayList<List<Entry>>()
-        var lovingEntries = ArrayList<Entry>()
-        var whateverEntries = ArrayList<Entry>()
-        var hatingEntries = ArrayList<Entry>()
+        val lovingEntries = ArrayList<Entry>()
+        val whateverEntries = ArrayList<Entry>()
+        val hatingEntries = ArrayList<Entry>()
         var lovingCount = 0f
         var whateverCount = 0f
         var hatingCount = 0f
-        var startTime = reactions.firstOrNull()?.let { it.timestamp?.time } ?: return chartData
+        val startTime = reactions.firstOrNull()?.timestamp?.time ?: return chartData
         reactions.forEach {
             val timestamp = TimeUnit.MILLISECONDS.toSeconds((it.timestamp.time - startTime)).toFloat()
             when (it.guestComment) {
@@ -185,7 +185,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     fun lineGraphPageSelected() {
-        disposable = service.feedsenseService()
+        disposable = service.feedsenseService(userToken)
                 .fetchSessions()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

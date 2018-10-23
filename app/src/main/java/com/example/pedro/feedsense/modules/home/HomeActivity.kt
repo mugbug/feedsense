@@ -1,5 +1,6 @@
 package com.example.pedro.feedsense.modules.home
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.databinding.DataBindingUtil
@@ -15,6 +16,7 @@ import com.example.pedro.feedsense.*
 import com.example.pedro.feedsense.PreferenceHelper.defaultPrefs
 import com.example.pedro.feedsense.PreferenceHelper.get
 import com.example.pedro.feedsense.databinding.ActivityHomeBinding
+import com.example.pedro.feedsense.models.Alert
 import com.example.pedro.feedsense.models.Reaction
 import com.example.pedro.feedsense.modules.BaseActivity
 import com.example.pedro.feedsense.modules.hideKeyboard
@@ -28,7 +30,7 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     val viewModel: HomeViewModel by viewModel()
     lateinit var prefs: SharedPreferences
-    private var email: String? = null
+    private var userToken: String? = null
     private var isUser = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +48,9 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
         val adapter = HomePagerAdapter(supportFragmentManager)
 
-        email = prefs["email"]
-        viewModel.userToken = email ?: ""
-        isUser = email != null
+        userToken = prefs[PreferenceHelper.TOKEN]
+        viewModel.userToken = userToken ?: ""
+        isUser = userToken != null
 
         if (isUser) {
             home_create_session_fab.visibility = View.VISIBLE
@@ -105,6 +107,15 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     @Suppress("UNUSED_PARAMETER")
     fun didTapLogout(view: View) {
+        showSimpleDialog("Sair",
+                "Voce tem certeza que deseja sair?",
+                "Sim", "Cancelar", true,
+                DialogInterface.OnClickListener { _, _ ->
+            logout()
+        })
+    }
+
+    private fun logout() {
         defaultPrefs(this).edit().clear().apply()
         val intent = Intent(this, LoginActivity::class.java)
         finish()

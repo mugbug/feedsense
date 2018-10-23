@@ -21,16 +21,21 @@ open class BaseActivity : FragmentActivity() {
 
     fun showSimpleDialog(alert: Alert) {
         val dummyListener = DialogInterface.OnClickListener { _, _ -> }
-        showSimpleDialog(alert.title, alert.message, alert.buttonText, alert.isCancelable, dummyListener)
+        showSimpleDialog(alert.title, alert.message, alert.buttonText, "", alert.isCancelable, dummyListener)
     }
 
-    protected fun showSimpleDialog(title: String, message: String, buttonText: String,
+    protected fun showSimpleDialog(title: String, message: String, positiveButtonText: String,
+                                   negativeButtonText: String = "",
                                    isCancelable: Boolean = true, clickListener: DialogInterface.OnClickListener) {
         simpleDialog?.dismiss()
+        val cancelListener = DialogInterface.OnClickListener { _, _ -> simpleDialog?.dismiss() }
         val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
         builder.setTitle(title)
         builder.setMessage(message)
-        builder.setPositiveButton(buttonText, clickListener)
+        if (!negativeButtonText.isEmpty()) {
+            builder.setNegativeButton(negativeButtonText, cancelListener)
+        }
+        builder.setPositiveButton(positiveButtonText, clickListener)
         builder.setCancelable(isCancelable)
         simpleDialog = builder.create()
         simpleDialog?.show()

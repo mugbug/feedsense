@@ -107,8 +107,8 @@ class LoginActivity: BaseActivity() {
         goToHomeScreen()
     }
 
-    private fun showHomeScreenForUser(email: String) {
-        prefs[PreferenceHelper.EMAIL] = email
+    private fun showHomeScreenForUser(userToken: String) {
+        prefs[PreferenceHelper.TOKEN] = userToken
         prefs[PreferenceHelper.IS_LOGGED] = true
 
         goToHomeScreen()

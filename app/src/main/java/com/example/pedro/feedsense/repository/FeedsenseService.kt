@@ -16,9 +16,8 @@ interface FeedsenseService {
     @GET("sessions")
     fun fetchSessions(): Observable<List<SessionModel>>
 
-    @PUT("sessions/{sessionId}/{guestId}")
-    fun joinSession(@Path("sessionId") sessionId: String,
-                    @Path("guestId") guestId: String): Observable<Any>
+    @PUT("sessions/{sessionId}")
+    fun joinSession(@Path("sessionId") sessionId: String): Completable
 
     @POST("comments")
     fun reactToSession(@Body reaction: ReactionModel): Completable
@@ -27,5 +26,8 @@ interface FeedsenseService {
     fun fetchReactions(@Path("sessionId") sessionId: String): Observable<List<ReactionModel>>
 
     @POST("users")
-    fun registerUser(@Body user: User): Observable<User>
+    fun registerUser(@Body user: User): Observable<String>
+
+    @POST("login")
+    fun login(@Body user: User): Observable<String>
 }
