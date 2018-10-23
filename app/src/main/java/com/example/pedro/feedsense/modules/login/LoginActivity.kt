@@ -71,9 +71,9 @@ class LoginActivity: BaseActivity() {
     }
 
     private fun stopLoading() {
-        login_button.revertAnimation()
-        register_button.revertAnimation()
-        join_session_button.revertAnimation()
+        if (login_button.isAnimating) login_button.revertAnimation()
+        if (register_button.isAnimating) register_button.revertAnimation()
+        if (join_session_button.isAnimating) join_session_button.revertAnimation()
     }
 
     fun didTapLogin(view: View) {
@@ -122,6 +122,14 @@ class LoginActivity: BaseActivity() {
 
     fun didTapWannaRegister(view: View) {
         showRegisterFields()
+    }
+
+    override fun onBackPressed() {
+        if (login_button.visibility == View.VISIBLE) {
+            super.onBackPressed()
+            return
+        }
+        showLoginFields()
     }
 
     fun didTapBackToLogin(view: View) {

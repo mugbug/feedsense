@@ -1,9 +1,10 @@
 package com.example.pedro.feedsense
 
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 
 fun LinearLayout.setMargins(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null) {
-    val params: LinearLayout.LayoutParams = this.layoutParams as LinearLayout.LayoutParams
+    val params: ConstraintLayout.LayoutParams = this.layoutParams as ConstraintLayout.LayoutParams
 
     val left = left?.let { it } ?: params.leftMargin
     val top = top?.let { it } ?: params.topMargin

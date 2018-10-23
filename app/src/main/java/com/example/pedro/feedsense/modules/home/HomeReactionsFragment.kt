@@ -58,7 +58,7 @@ class HomeReactionsFragment: Fragment() {
     }
 
     private fun shouldHideJoinSessionFields() {
-        reaction_buttons.setMargins(top = 100)
+//        reaction_buttons.setMargins(top = 100)
         join_session_fields.visibility = View.GONE
         session_code_field.setText("")
         session_code_field.clearFocus()
