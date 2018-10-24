@@ -1,5 +1,6 @@
 package com.example.pedro.feedsense.modules.home
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.pedro.feedsense.*
 import com.example.pedro.feedsense.databinding.FragmentLineChartBinding
 import com.example.pedro.feedsense.modules.hideKeyboard
+import com.github.mikephil.charting.charts.Chart
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.utils.Utils
 import kotlinx.android.synthetic.main.fragment_line_chart.*
 import kotlinx.android.synthetic.main.fragment_line_chart.view.*
 import org.koin.android.architecture.ext.sharedViewModel
@@ -36,7 +41,19 @@ class LineChartFragment: Fragment(), View.OnClickListener {
         binding.setLifecycleOwner(this)
         val view = binding.root
         view.plot_chart_with_session_button.setOnClickListener(this)
+        setupChartEmptyState(view.context, view.line_chart)
         return view
+    }
+
+    private fun setupChartEmptyState(context: Context, chart: LineChart) {
+        chart.setNoDataText("Escolha uma sessão acima para ver o gráfico")
+        val typeface = ResourcesCompat.getFont(context, R.font.lato_light)
+        chart.setNoDataTextTypeface(typeface)
+        chart.getPaint(Chart.PAINT_INFO).textSize = Utils.convertDpToPixel(18f)
+
+        // set marker
+//        val marker = CustomMarkerView(context, R.layout.line_chart_marker_view)
+//        chart.marker = marker
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,10 +99,6 @@ class LineChartFragment: Fragment(), View.OnClickListener {
         val dataSet = data[0].parseToLineDataSet(green)
         val dataSet1 = data[1].parseToLineDataSet(yellow)
         val dataSet2 = data[2].parseToLineDataSet(red)
-
-        // set marker
-//        val marker = CustomMarkerView(context, R.layout.line_chart_marker_view)
-//        line_chart.marker = marker
 
         val lineData = LineData(dataSet, dataSet1, dataSet2)
         line_chart.data = lineData

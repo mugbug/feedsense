@@ -1,5 +1,6 @@
 package com.example.pedro.feedsense.modules.home
 
+import android.app.Activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.example.pedro.feedsense.R
 import com.example.pedro.feedsense.databinding.FragmentHomeReactionsBinding
 import kotlinx.android.synthetic.main.fragment_home_reactions.*
+import kotlinx.android.synthetic.main.fragment_home_reactions.view.*
 import org.koin.android.architecture.ext.sharedViewModel
 
 class HomeReactionsFragment: Fragment() {
@@ -34,6 +36,8 @@ class HomeReactionsFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupObservers()
+        val orientation = view.resources.configuration.orientation
+        configurePercentageWidth(view.reaction_buttons, orientation)
     }
 
     fun setupObservers() {
@@ -66,13 +70,17 @@ class HomeReactionsFragment: Fragment() {
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
 
-        val params = reaction_buttons.layoutParams as ConstraintLayout.LayoutParams
-        if (newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        configurePercentageWidth(reaction_buttons, newConfig?.orientation)
+    }
+
+    private fun configurePercentageWidth(buttons_layout: View, orientation: Int?) {
+        val params = buttons_layout.layoutParams as ConstraintLayout.LayoutParams
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             params.matchConstraintPercentWidth = 0.9f
-        } else if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             params.matchConstraintPercentWidth = 0.7f
         }
-        reaction_buttons.requestLayout()
+        buttons_layout.requestLayout()
     }
 
     private fun shouldHideJoinSessionFields() {
