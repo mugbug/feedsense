@@ -1,10 +1,12 @@
 package com.example.pedro.feedsense.modules.home
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -59,6 +61,18 @@ class HomeReactionsFragment: Fragment() {
             if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
             if (home_create_session_button.isAnimating) home_create_session_button.revertAnimation()
         })
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+
+        val params = reaction_buttons.layoutParams as ConstraintLayout.LayoutParams
+        if (newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            params.matchConstraintPercentWidth = 0.9f
+        } else if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            params.matchConstraintPercentWidth = 0.7f
+        }
+        reaction_buttons.requestLayout()
     }
 
     private fun shouldHideJoinSessionFields() {

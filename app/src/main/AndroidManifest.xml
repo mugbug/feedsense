@@ -24,6 +24,7 @@
             android:windowSoftInputMode="stateVisible|adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".modules.home.HomeActivity"
+            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
         <meta-data
             android:name="io.fabric.ApiKey"
