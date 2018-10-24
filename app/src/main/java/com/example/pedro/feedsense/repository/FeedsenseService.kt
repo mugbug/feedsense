@@ -1,6 +1,7 @@
 package com.example.pedro.feedsense.repository
 
 import com.example.pedro.feedsense.models.ReactionModel
+import com.example.pedro.feedsense.models.ReactionPercentage
 import com.example.pedro.feedsense.models.SessionModel
 import com.example.pedro.feedsense.models.User
 import io.reactivex.Completable
@@ -23,7 +24,7 @@ interface FeedsenseService {
     fun joinSession(@Path("sessionId") sessionId: String): Completable
 
     @POST("comments")
-    fun reactToSession(@Body reaction: ReactionModel): Completable
+    fun reactToSession(@Body reaction: ReactionModel): Observable<ReactionPercentage>
 
     @GET("comments/{sessionId}")
     fun fetchReactions(@Path("sessionId") sessionId: String): Observable<List<ReactionModel>>

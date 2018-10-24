@@ -14,165 +14,165 @@
         android:layout_height="match_parent"
         android:background="@color/darkGray_161616">
 
-            <LinearLayout
-                android:id="@+id/user_session"
-                android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/user_session"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:animateLayoutChanges="true"
+            android:gravity="center_horizontal|top"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/current_session_progress"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/session_label"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="30dp"
-                android:animateLayoutChanges="true"
-                android:gravity="center_horizontal|top"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/current_session_progress"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:textSize="30dp"
+                android:text="Sessão atual: "/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/session_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30dp"
-                    android:text="Sessão atual: "/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/current_session"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30dp"
-                    android:text="@{viewModel.currentSession}"
-                    tools:text="-"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/join_session_fields"
-                android:layout_width="0dp"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/current_session"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="30dp"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent="0.7"
-                app:layout_constraintTop_toBottomOf="@id/user_session"
-                app:layout_constraintStart_toEndOf="@id/current_session_progress"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:textSize="30dp"
+                android:text="@{viewModel.currentSession}"
+                tools:text="-"/>
+        </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/active_sessions_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:popupBackground="@color/darkGray_212121"
-                    android:textColor="@color/white"
-                    android:layout_marginBottom="15dp"
-                    android:visibility="gone"/>
+        <LinearLayout
+            android:id="@+id/join_session_fields"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="30dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.7"
+            app:layout_constraintTop_toBottomOf="@id/user_session"
+            app:layout_constraintStart_toEndOf="@id/current_session_progress"
+            app:layout_constraintEnd_toEndOf="parent">
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/session_code_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:layout_marginBottom="15dp"
-                    android:hint="digite o código da sessão"
-                    android:visibility="gone"/>
-
-                <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                    android:id="@+id/home_join_session_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Conectar"
-                    android:background="@drawable/primary_button"
-                    android:onClick="didTapJoinSession"
-                    android:layout_gravity="center_horizontal"
-                    app:spinning_bar_padding="0dp"
-                    app:spinning_bar_color="@color/white"
-                    app:initialCornerAngle="1000dp"
-                    app:finalCornerAngle="1000dp"/>
-
-                <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                    android:id="@+id/home_create_session_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Criar e conectar"
-                    android:background="@drawable/primary_button"
-                    android:onClick="didTapCreateSession"
-                    android:layout_gravity="center_horizontal"
-                    app:spinning_bar_padding="0dp"
-                    app:spinning_bar_color="@color/white"
-                    app:initialCornerAngle="1000dp"
-                    app:finalCornerAngle="1000dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/reaction_buttons"
-                android:orientation="horizontal"
-                android:layout_width="0dp"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/active_sessions_spinner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="3"
-                android:visibility="gone"
-                app:layout_constraintVertical_chainStyle="spread"
-                app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent="0.7"
-                app:layout_constraintTop_toBottomOf="@id/join_session_fields"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/current_session_progress"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:popupBackground="@color/darkGray_212121"
+                android:textColor="@color/white"
+                android:layout_marginBottom="15dp"
+                android:visibility="gone"/>
 
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin">
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/session_code_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginBottom="15dp"
+                android:hint="digite o código da sessão"
+                android:visibility="gone"/>
 
-                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressImageButton
-                        android:id="@+id/green_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/transparent"
-                        android:scaleType="fitCenter"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_in_love"
-                        android:onClick="didTapGreenButton"
-                        app:spinning_bar_padding="15dp"
-                        app:spinning_bar_color="@color/green" />
-                </FrameLayout>
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:id="@+id/home_join_session_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Conectar"
+                android:background="@drawable/primary_button"
+                android:onClick="didTapJoinSession"
+                android:layout_gravity="center_horizontal"
+                app:spinning_bar_padding="0dp"
+                app:spinning_bar_color="@color/white"
+                app:initialCornerAngle="1000dp"
+                app:finalCornerAngle="1000dp"/>
 
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin">
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:id="@+id/home_create_session_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Criar e conectar"
+                android:background="@drawable/primary_button"
+                android:onClick="didTapCreateSession"
+                android:layout_gravity="center_horizontal"
+                app:spinning_bar_padding="0dp"
+                app:spinning_bar_color="@color/white"
+                app:initialCornerAngle="1000dp"
+                app:finalCornerAngle="1000dp"/>
+        </LinearLayout>
 
-                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressImageButton
-                        android:id="@+id/yellow_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/transparent"
-                        android:scaleType="fitCenter"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_confused"
-                        android:onClick="didTapYellowButton"
-                        app:spinning_bar_padding="15dp"
-                        app:spinning_bar_color="@color/yellow"/>
-                </FrameLayout>
+        <LinearLayout
+            android:id="@+id/reaction_buttons"
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:visibility="gone"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.7"
+            app:layout_constraintTop_toBottomOf="@id/join_session_fields"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/current_session_progress"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/buttonHorizontalMargin">
+
+                <br.com.simplepass.loading_button_lib.customViews.CircularProgressImageButton
+                    android:id="@+id/green_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_in_love"
+                    android:onClick="didTapGreenButton"
+                    app:spinning_bar_padding="15dp"
+                    app:spinning_bar_color="@color/green" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/buttonHorizontalMargin">
+
+                <br.com.simplepass.loading_button_lib.customViews.CircularProgressImageButton
+                    android:id="@+id/yellow_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_confused"
+                    android:onClick="didTapYellowButton"
+                    app:spinning_bar_padding="15dp"
+                    app:spinning_bar_color="@color/yellow"/>
+            </FrameLayout>
 
 
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/buttonHorizontalMargin">
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/buttonHorizontalMargin">
 
-                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressImageButton
-                        android:id="@+id/red_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/transparent"
-                        android:scaleType="fitCenter"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_bored"
-                        android:onClick="didTapRedButton"
-                        app:spinning_bar_padding="15dp"
-                        app:spinning_bar_color="@color/red"/>
-                </FrameLayout>
-            </LinearLayout>
+                <br.com.simplepass.loading_button_lib.customViews.CircularProgressImageButton
+                    android:id="@+id/red_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_bored"
+                    android:onClick="didTapRedButton"
+                    app:spinning_bar_padding="15dp"
+                    app:spinning_bar_color="@color/red"/>
+            </FrameLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/current_session_progress"
@@ -183,22 +183,25 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <View
+                android:id="@+id/loving_percentage_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.33"
                 android:background="@color/green"/>
 
             <View
+                android:id="@+id/whatever_percentage_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.33"
                 android:background="@color/yellow"/>
 
             <View
+                android:id="@+id/hating_percentage_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.34"
                 android:background="@color/red"/>
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

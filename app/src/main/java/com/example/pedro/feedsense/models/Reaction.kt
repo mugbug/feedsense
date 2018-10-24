@@ -12,3 +12,9 @@ data class ReactionModel(
         val pin: String,
         val guestComment: Reaction,
         val timestamp: Date)
+
+data class ReactionPercentage(
+        val loving: Float = 0.333f,
+        val whatever: Float = 0.333f,
+        val hating: Float = 0.334f
+)
