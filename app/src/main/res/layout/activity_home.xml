@@ -16,7 +16,7 @@
         android:background="@color/primaryText"
         tools:context=".modules.home.HomeActivity">
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/home_show_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             app:layout_constraintStart_toEndOf="@id/home_show_chart"
             app:layout_constraintEnd_toStartOf="@id/home_logout"/>
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/home_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,8 +96,6 @@
                 app:fab_size="mini"
                 app:fab_label="Entrar em uma sessao"
                 android:onClick="didTapWannaJoinSession"/>
-
         </com.github.clans.fab.FloatingActionMenu>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

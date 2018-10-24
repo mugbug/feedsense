@@ -86,6 +86,7 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onPageSelected(position: Int) {
         if (position == 0 && isUser) {
+            plot_chart_with_session_button.startAnimation()
             viewModel.lineGraphPageSelected()
         }
     }
@@ -135,9 +136,12 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         switchToReactionsPage()
         home_fab_menu.close(true)
         join_session_fields.visibility = View.VISIBLE
+        session_code_field.visibility = View.GONE
+        active_sessions_spinner.visibility = View.VISIBLE
         home_create_session_button.visibility = View.GONE
         home_join_session_button.visibility = View.VISIBLE
-        reaction_buttons.setMargins(top = 0)
+//        if (!home_join_session_button.isAnimating) home_join_session_button.startAnimation()
+        viewModel.updateJoinSessionSpinner()
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -145,9 +149,10 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         switchToReactionsPage()
         home_fab_menu.close(true)
         join_session_fields.visibility = View.VISIBLE
+        session_code_field.visibility = View.VISIBLE
+        active_sessions_spinner.visibility = View.GONE
         home_create_session_button.visibility = View.VISIBLE
         home_join_session_button.visibility = View.GONE
-        reaction_buttons.setMargins(top = 0)
     }
 
     private fun showReactionButtons() {
@@ -157,8 +162,8 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     @Suppress("UNUSED_PARAMETER")
     fun didTapJoinSession(view: View) {
         hideKeyboard(this)
-        home_join_session_button.startAnimation()
-        val pin = session_code_field.text.toString()
+        if (!home_join_session_button.isAnimating) home_join_session_button.startAnimation()
+        val pin = active_sessions_spinner.selectedItem.toString()
         viewModel.joinSession(pin)
     }
 

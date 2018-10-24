@@ -33,8 +33,7 @@
                     android:layout_marginRight="10dp"
                     android:popupBackground="@color/darkGray_212121"
                     android:layout_height="match_parent"
-                    android:textColor="@color/white"
-                    android:hint="número da sessão"/>
+                    android:textColor="@color/white"/>
 
                 <FrameLayout
                     android:layout_width="0dp"

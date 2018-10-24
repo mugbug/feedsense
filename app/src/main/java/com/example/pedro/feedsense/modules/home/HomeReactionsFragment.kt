@@ -4,16 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.pedro.feedsense.R
 import com.example.pedro.feedsense.databinding.FragmentHomeReactionsBinding
-import com.example.pedro.feedsense.setMargins
 import kotlinx.android.synthetic.main.fragment_home_reactions.*
-import kotlinx.android.synthetic.main.fragment_line_chart.*
 import org.koin.android.architecture.ext.sharedViewModel
-import org.koin.android.architecture.ext.viewModel
 
 class HomeReactionsFragment: Fragment() {
 
@@ -50,17 +48,30 @@ class HomeReactionsFragment: Fragment() {
             if (red_button.isAnimating) red_button.revertAnimation()
         })
 
+        viewModel.updateJoinSessionSpinner.observe(this, Observer {
+            if (it != null) updateSessionsSpinner(it)
+//            if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
+        })
+
         viewModel.hideJoinSessionFields.observe(this, Observer {
             shouldHideJoinSessionFields()
             reaction_buttons.visibility = View.VISIBLE
-            home_join_session_button.revertAnimation()
+            if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
+            if (home_create_session_button.isAnimating) home_create_session_button.revertAnimation()
         })
     }
 
     private fun shouldHideJoinSessionFields() {
-        reaction_buttons.setMargins(top = 100)
         join_session_fields.visibility = View.GONE
         session_code_field.setText("")
         session_code_field.clearFocus()
+    }
+
+    private fun updateSessionsSpinner(sessions: List<String>) {
+        val context = activity!!.applicationContext
+
+        val adapter = ArrayAdapter<String>(context, R.layout.spinner_item, sessions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        active_sessions_spinner.adapter = adapter
     }
 }

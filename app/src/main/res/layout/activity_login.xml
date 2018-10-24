@@ -10,204 +10,211 @@
             type="com.example.pedro.feedsense.modules.login.LoginViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         tools:context=".modules.login.LoginActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/background_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:background="@color/darkGray_212121">
+            android:background="@color/darkGray_212121"
+            android:foreground="@drawable/background_gradient"/>
 
-            <ImageView
-                android:id="@+id/background_image"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:foreground="@drawable/background_gradient"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="FeedSense"
-                    android:textSize="50sp"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/nature_beauty"
-                    android:layout_marginBottom="30dp"
-                    android:gravity="center_horizontal"
-                    app:layout_constraintBottom_toTopOf="@id/fields_layout"/>
+                android:background="@color/transparent">
 
                 <LinearLayout
-                    android:id="@+id/fields_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    android:orientation="vertical"
                     android:animateLayoutChanges="true"
-                    android:paddingHorizontal="10dp"
-                    android:layout_marginHorizontal="55dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.7"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/login_fields_title"
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:visibility="gone"/>
-
-                    <EditText
-                        android:id="@+id/email_field"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
+                        android:text="FeedSense"
+                        android:textSize="50sp"
                         android:textColor="@color/white"
-                        android:hint="digite seu email"
-                        android:inputType="textEmailAddress"/>
-
-                    <EditText
-                        android:id="@+id/password_field"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:textColor="@color/white"
-                        android:hint="digite sua senha"
-                        android:inputType="textPassword"/>
-
-                    <EditText
-                        android:id="@+id/password_check_field"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:textColor="@color/white"
-                        android:hint="confirme sua senha"
-                        android:inputType="textPassword"
-                        android:visibility="gone" />
-
-                    <EditText
-                        android:id="@+id/login_session_id_field"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:textColor="@color/white"
-                        android:inputType="number"
-                        android:hint="digite o número da sessão"
-                        android:visibility="gone" />
+                        android:fontFamily="@font/nature_beauty"
+                        android:layout_marginBottom="30dp"
+                        android:gravity="center_horizontal"
+                        app:layout_constraintBottom_toTopOf="@id/fields_layout"/>
 
                     <LinearLayout
-                        android:id="@+id/alt_buttons_layout"
+                        android:id="@+id/fields_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginVertical="10dp"
-                        android:weightSum="2"
-                        android:layout_gravity="center_horizontal"
-                        android:visibility="gone">
+                        android:background="@color/transparent"
+                        android:orientation="vertical"
+                        android:animateLayoutChanges="true"
+                        android:paddingHorizontal="10dp">
 
-                        <Button
-                            android:id="@+id/back_to_login_button"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/login_fields_title"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/secondary_button"
-                            android:onClick="didTapBackToLogin"
-                            android:text="Voltar" />
+                            android:textSize="20sp"
+                            android:visibility="gone"/>
 
-                        <FrameLayout
-                            android:id="@+id/login_register_button_layout"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent"
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/email_field"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:textColor="@color/white"
+                            android:hint="digite seu email"
+                            android:inputType="textEmailAddress"/>
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/password_field"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:textColor="@color/white"
+                            android:hint="digite sua senha"
+                            android:inputType="textPassword"/>
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/password_check_field"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:textColor="@color/white"
+                            android:hint="confirme sua senha"
+                            android:inputType="textPassword"
+                            android:visibility="gone" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/login_session_id_field"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:textColor="@color/white"
+                            android:hint="digite o código da sessão"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/alt_buttons_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginVertical="10dp"
+                            android:weightSum="2"
+                            android:layout_gravity="center_horizontal"
                             android:visibility="gone">
 
-                            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                                android:id="@+id/register_button"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/primary_button"
-                                android:text="Cadastrar"
-                                android:layout_gravity="center_horizontal"
-                                android:onClick="didTapRegister"
-                                app:spinning_bar_padding="0dp"
-                                app:spinning_bar_color="@color/white"
-                                app:initialCornerAngle="1000dp"
-                                app:finalCornerAngle="1000dp" />
-                        </FrameLayout>
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/back_to_login_button"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/secondary_button"
+                                android:onClick="didTapBackToLogin"
+                                android:text="Voltar" />
 
-                        <FrameLayout
-                            android:id="@+id/login_join_session_button_layout"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent"
-                            android:visibility="gone">
-
-                            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                                android:id="@+id/join_session_button"
-                                android:layout_width="match_parent"
+                            <FrameLayout
+                                android:id="@+id/login_register_button_layout"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/primary_button"
-                                android:text="Conectar"
-                                android:layout_gravity="center_horizontal"
-                                android:onClick="didTapJoinAsGuest"
-                                app:spinning_bar_padding="0dp"
-                                app:spinning_bar_color="@color/white"
-                                app:initialCornerAngle="1000dp"
-                                app:finalCornerAngle="1000dp"/>
-                        </FrameLayout>
+                                android:visibility="gone">
+
+                                <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                                    android:id="@+id/register_button"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/primary_button"
+                                    android:text="Cadastrar"
+                                    android:layout_gravity="center_horizontal"
+                                    android:onClick="didTapRegister"
+                                    app:spinning_bar_padding="0dp"
+                                    app:spinning_bar_color="@color/white"
+                                    app:initialCornerAngle="1000dp"
+                                    app:finalCornerAngle="1000dp" />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/login_join_session_button_layout"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent"
+                                android:visibility="gone">
+
+                                <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                                    android:id="@+id/join_session_button"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/primary_button"
+                                    android:text="Conectar"
+                                    android:layout_gravity="center_horizontal"
+                                    android:onClick="didTapJoinAsGuest"
+                                    app:spinning_bar_padding="0dp"
+                                    app:spinning_bar_color="@color/white"
+                                    app:initialCornerAngle="1000dp"
+                                    app:finalCornerAngle="1000dp"/>
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                            android:id="@+id/login_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/primary_button"
+                            android:onClick="didTapLogin"
+                            android:text="Entrar"
+                            app:spinning_bar_color="@color/white"
+                            app:initialCornerAngle="1000dp"
+                            app:finalCornerAngle="1000dp" />
                     </LinearLayout>
 
-                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                        android:id="@+id/login_button"
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/primary_button"
-                        android:onClick="didTapLogin"
-                        android:text="Entrar"
-                        app:spinning_bar_color="@color/white"
-                        app:initialCornerAngle="1000dp"
-                        app:finalCornerAngle="1000dp" />
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="30dp"
+                        android:animateLayoutChanges="true"
+                        app:layout_constraintTop_toBottomOf="@id/fields_layout">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/start_register_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ainda não tenho cadastro"
+                            android:background="@drawable/secondary_button"
+                            android:onClick="didTapWannaRegister"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/join_as_guest_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Entrar como visitante"
+                            android:background="@drawable/secondary_button"
+                            android:onClick="didTapWannaJoinAsGuest"/>
+                    </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="30dp"
-                    android:animateLayoutChanges="true"
-                    app:layout_constraintTop_toBottomOf="@id/fields_layout">
-
-                    <Button
-                        android:id="@+id/start_register_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ainda não tenho cadastro"
-                        android:background="@drawable/secondary_button"
-                        android:onClick="didTapWannaRegister"/>
-
-                    <Button
-                        android:id="@+id/join_as_guest_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Entrar como visitante"
-                        android:background="@drawable/secondary_button"
-                        android:onClick="didTapWannaJoinAsGuest"/>
-                </LinearLayout>
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
