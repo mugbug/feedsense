@@ -54,6 +54,10 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     val updateJoinSessionSpinner: LiveData<List<String>?>
         get() = _updateJoinSessionSpinner
 
+    private val _updateReactionProgress = SingleLiveEvent<ReactionPercentage>()
+    val updateReactionProgress: LiveData<ReactionPercentage?>
+        get() = _updateReactionProgress
+
     init {
         _currentSession.value = "-"
     }
@@ -117,7 +121,7 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { reactedToSessionWithSuccess() },
+                        { reactionPercentage -> reactedToSessionWithSuccess(reactionPercentage) },
                         { error -> reactedToSessionWithError(error) }
                 )
     }
@@ -128,7 +132,9 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
         _showAlert.call()
     }
 
-    private fun reactedToSessionWithSuccess() {
+    private fun reactedToSessionWithSuccess(reactionPercentage: ReactionPercentage) {
+        _updateReactionProgress.value = reactionPercentage
+        _updateReactionProgress.call()
         _showToast.value = "Obrigado pelo seu feedback!"
         _showToast.call()
     }

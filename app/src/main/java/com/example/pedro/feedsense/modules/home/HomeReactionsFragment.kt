@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.pedro.feedsense.R
 import com.example.pedro.feedsense.databinding.FragmentHomeReactionsBinding
+import com.example.pedro.feedsense.models.ReactionPercentage
 import kotlinx.android.synthetic.main.fragment_home_reactions.*
 import kotlinx.android.synthetic.main.fragment_home_reactions.view.*
 import org.koin.android.architecture.ext.sharedViewModel
@@ -59,6 +61,10 @@ class HomeReactionsFragment: Fragment() {
 //            if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
         })
 
+        viewModel.updateReactionProgress.observe(this, Observer {
+            if (it != null) updateReactionProgress(it)
+        })
+
         viewModel.hideJoinSessionFields.observe(this, Observer {
             shouldHideJoinSessionFields()
             reaction_buttons.visibility = View.VISIBLE
@@ -95,5 +101,17 @@ class HomeReactionsFragment: Fragment() {
         val adapter = ArrayAdapter<String>(context, R.layout.spinner_item, sessions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         active_sessions_spinner.adapter = adapter
+    }
+
+    private fun updateReactionProgress(reactionPercentage: ReactionPercentage) {
+        changeViewWeight(loving_percentage_view, reactionPercentage.loving)
+        changeViewWeight(whatever_percentage_view, reactionPercentage.whatever)
+        changeViewWeight(hating_percentage_view, reactionPercentage.hating)
+    }
+
+    private fun changeViewWeight(view: View, weight: Float) {
+        val params = view.layoutParams as LinearLayout.LayoutParams
+        params.weight = weight
+        view.requestLayout()
     }
 }
