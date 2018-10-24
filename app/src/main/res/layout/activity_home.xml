@@ -96,8 +96,6 @@
                 app:fab_size="mini"
                 app:fab_label="Entrar em uma sessao"
                 android:onClick="didTapWannaJoinSession"/>
-
         </com.github.clans.fab.FloatingActionMenu>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

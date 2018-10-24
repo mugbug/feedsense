@@ -30,6 +30,10 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     val showAlert: LiveData<Alert>
         get() = _showAlert
 
+    private val _lineChartFragmentShowAlert = SingleLiveEvent<Alert>()
+    val lineChartFragmentShowAlert: LiveData<Alert>
+        get() = _lineChartFragmentShowAlert
+
     private val _showToast = SingleLiveEvent<String>()
     val showToast: LiveData<String>
         get() = _showToast
@@ -45,6 +49,10 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private val _updateSessionsSpinner = SingleLiveEvent<List<String>>()
     val updateSessionsSpinner: LiveData<List<String>?>
         get() = _updateSessionsSpinner
+
+    private val _updateJoinSessionSpinner = SingleLiveEvent<List<String>>()
+    val updateJoinSessionSpinner: LiveData<List<String>?>
+        get() = _updateJoinSessionSpinner
 
     init {
         _currentSession.value = "-"
@@ -90,10 +98,11 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
     private fun treatCreateSessionWithSuccess(sessionId: String) {
         _currentSession.value = sessionId
-        joinSession(sessionId)
+//        joinSession(sessionId)
         val alert = Alert("Sucesso!", "Sessão $sessionId criada com sucesso!", "Ok")
         _showAlert.value = alert
         _showAlert.call()
+        _hideJoinSessionFields.call()
     }
 
     fun reactToSession(reaction: Reaction) {
@@ -169,17 +178,12 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { reactions -> refreshLineChartForReactions(reactions) },
-                        { error -> showAlert(error) }
+                        { error -> showAlertOnLineChart(error) }
                 )
     }
 
     private fun updateSessionsSpinnerValues(sessions: List<SessionModel>) {
-        val formattedSessions = sessions
-                .sortedByDescending { it.time }
-                .map {
-            val formatedDate = dateFormat.format(it.time)
-            it.pin + " - " + formatedDate
-        }
+        val formattedSessions = formatSessionsWithTimestamp(sessions)
         _updateSessionsSpinner.value = formattedSessions
         _updateSessionsSpinner.call()
     }
@@ -191,8 +195,40 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { sessions -> updateSessionsSpinnerValues(sessions) },
-                        { error -> showAlert(error) }
+                        { error -> showAlertOnLineChart(error) }
                 )
+    }
+
+    fun updateJoinSessionSpinner() {
+        disposable = service.feedsenseService()
+                .fetchActiveSessions()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { sessions -> updateJoinSessionSpinnerValues(sessions) },
+                        { error -> showAlert(error)}
+                )
+    }
+
+    private fun updateJoinSessionSpinnerValues(sessions: List<SessionModel>) {
+        val formattedSessions = sessions.map { it.pin }
+        _updateJoinSessionSpinner.value = formattedSessions
+        _updateJoinSessionSpinner.call()
+    }
+
+    private fun formatSessionsWithTimestamp(sessions: List<SessionModel>): List<String> {
+        return sessions
+                .sortedByDescending { it.time }
+                .map {
+                    val formatedDate = dateFormat.format(it.time)
+                    it.pin + " - " + formatedDate
+                }
+    }
+
+    private fun showAlertOnLineChart(error: Throwable?) {
+        val alert = Alert("Oops!", error?.message ?: "Algo deu errado", "Ok")
+        _lineChartFragmentShowAlert.value = alert
+        _lineChartFragmentShowAlert.call()
     }
 
     private fun showAlert(error: Throwable?) {

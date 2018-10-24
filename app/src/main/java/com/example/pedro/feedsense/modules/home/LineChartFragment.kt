@@ -50,9 +50,10 @@ class LineChartFragment: Fragment(), View.OnClickListener {
 
         viewModel.updateSessionsSpinner.observe(this, Observer {
             if (it != null) updateSessionsSpinner(it)
+            if (plot_chart_with_session_button.isAnimating) plot_chart_with_session_button.revertAnimation()
         })
 
-        viewModel.showAlert.observe(this, Observer {
+        viewModel.lineChartFragmentShowAlert.observe(this, Observer {
             if (it != null) (activity as? HomeActivity)?.showSimpleDialog(it)
             if (plot_chart_with_session_button.isAnimating) plot_chart_with_session_button.revertAnimation()
         })
