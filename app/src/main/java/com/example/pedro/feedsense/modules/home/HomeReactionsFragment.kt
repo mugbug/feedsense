@@ -49,20 +49,19 @@ class HomeReactionsFragment: Fragment() {
             if (home_create_session_button.isAnimating) home_create_session_button.revertAnimation()
         })
 
-        viewModel.showToast.observe(this, Observer {
-            if (it != null) (activity as? HomeActivity)?.showToast(it)
-            if (green_button.isAnimating) green_button.revertAnimation()
-            if (yellow_button.isAnimating) yellow_button.revertAnimation()
-            if (red_button.isAnimating) red_button.revertAnimation()
-        })
-
         viewModel.updateJoinSessionSpinner.observe(this, Observer {
             if (it != null) updateSessionsSpinner(it)
 //            if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
         })
 
         viewModel.updateReactionProgress.observe(this, Observer {
-            if (it != null) updateReactionProgress(it)
+            if (it != null) {
+                (activity as? HomeActivity)?.showToast(it.toastMessage)
+                updateReactionProgress(it.reactionPercentage)
+                if (green_button.isAnimating) green_button.revertAnimation()
+                if (yellow_button.isAnimating) yellow_button.revertAnimation()
+                if (red_button.isAnimating) red_button.revertAnimation()
+            }
         })
 
         viewModel.hideJoinSessionFields.observe(this, Observer {
@@ -103,7 +102,8 @@ class HomeReactionsFragment: Fragment() {
         active_sessions_spinner.adapter = adapter
     }
 
-    private fun updateReactionProgress(reactionPercentage: ReactionPercentage) {
+    private fun updateReactionProgress(reactionPercentage: ReactionPercentage?) {
+        if (reactionPercentage == null) return
         changeViewWeight(loving_percentage_view, reactionPercentage.loving)
         changeViewWeight(whatever_percentage_view, reactionPercentage.whatever)
         changeViewWeight(hating_percentage_view, reactionPercentage.hating)

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.pedro.feedsense.SingleLiveEvent
 import com.example.pedro.feedsense.models.Alert
 import com.example.pedro.feedsense.models.User
+import com.example.pedro.feedsense.repository.ApiError
 import com.example.pedro.feedsense.repository.NetworkServices
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -88,8 +89,9 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
         _showHomeScreenForUser.call()
     }
 
-    fun showErrorAlert(error: Throwable?) {
-        val alert = Alert("Oops!", error?.message ?: "", "Ok")
+    fun showErrorAlert(error: Throwable) {
+        val message = ApiError(error).message
+        val alert = Alert("Oops!", message, "Ok")
         _showAlert.value = alert
         _showAlert.call()
         _stopLoading.call()

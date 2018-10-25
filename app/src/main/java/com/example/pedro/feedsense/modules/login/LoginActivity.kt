@@ -156,7 +156,7 @@ class LoginActivity: BaseActivity() {
     }
 
     fun showRegisterFields() {
-        login_fields_title.text = "Ainda nao tem cadastro?"
+        login_fields_title.text = "Ainda não tem cadastro?"
         login_fields_title.visibility = View.VISIBLE
         email_field.visibility = View.VISIBLE
         password_field.visibility = View.VISIBLE
