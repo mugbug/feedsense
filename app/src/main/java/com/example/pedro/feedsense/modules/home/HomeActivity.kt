@@ -109,7 +109,7 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     @Suppress("UNUSED_PARAMETER")
     fun didTapLogout(view: View) {
         showSimpleDialog("Sair",
-                "Voce tem certeza que deseja sair?",
+                "Você tem certeza que deseja sair?",
                 "Sim", "Cancelar", true,
                 DialogInterface.OnClickListener { _, _ ->
             logout()
