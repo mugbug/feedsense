@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pedro.feedsense.SingleLiveEvent
 import com.example.pedro.feedsense.models.*
+import com.example.pedro.feedsense.repository.ApiError
 import com.example.pedro.feedsense.repository.NetworkServices
 import com.github.mikephil.charting.data.Entry
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,6 +14,10 @@ import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+
+sealed class HomeState {
+    class ReactedToSession(val toastMessage: String, val reactionPercentage: ReactionPercentage?): HomeState()
+}
 
 open class HomeViewModel(private val service: NetworkServices): ViewModel() {
 
@@ -34,10 +39,6 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     val lineChartFragmentShowAlert: LiveData<Alert>
         get() = _lineChartFragmentShowAlert
 
-    private val _showToast = SingleLiveEvent<String>()
-    val showToast: LiveData<String>
-        get() = _showToast
-
     private val _hideJoinSessionFields = SingleLiveEvent<Void>()
     val hideJoinSessionFields: LiveData<Void>
         get() = _hideJoinSessionFields
@@ -54,8 +55,8 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     val updateJoinSessionSpinner: LiveData<List<String>?>
         get() = _updateJoinSessionSpinner
 
-    private val _updateReactionProgress = SingleLiveEvent<ReactionPercentage>()
-    val updateReactionProgress: LiveData<ReactionPercentage?>
+    private val _updateReactionProgress = SingleLiveEvent<HomeState.ReactedToSession>()
+    val updateReactionProgress: LiveData<HomeState.ReactedToSession?>
         get() = _updateReactionProgress
 
     init {
@@ -133,15 +134,15 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     }
 
     private fun reactedToSessionWithSuccess(reactionPercentage: ReactionPercentage) {
-        _updateReactionProgress.value = reactionPercentage
+        val toastMessage = "Obrigado pelo seu feedback!"
+        _updateReactionProgress.value = HomeState.ReactedToSession(toastMessage, reactionPercentage)
         _updateReactionProgress.call()
-        _showToast.value = "Obrigado pelo seu feedback!"
-        _showToast.call()
     }
 
     private fun reactedToSessionWithError(error: Throwable?) {
-        _showToast.value = error?.message ?: "Oops! Algo deu errado"
-        _showToast.call()
+        val toastMessage = error?.message ?: "Oops! Algo deu errado"
+        _updateReactionProgress.value = HomeState.ReactedToSession(toastMessage, null)
+        _updateReactionProgress.call()
     }
 
     fun parseReactionsToLineChartEntries(reactions: List<ReactionModel>): List<List<Entry>> {
@@ -231,14 +232,16 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
                 }
     }
 
-    private fun showAlertOnLineChart(error: Throwable?) {
-        val alert = Alert("Oops!", error?.message ?: "Algo deu errado", "Ok")
+    private fun showAlertOnLineChart(error: Throwable) {
+        val message = ApiError(error).message
+        val alert = Alert("Oops!", message, "Ok")
         _lineChartFragmentShowAlert.value = alert
         _lineChartFragmentShowAlert.call()
     }
 
-    private fun showAlert(error: Throwable?) {
-        val alert = Alert("Oops!", error?.message ?: "Algo deu errado", "Ok")
+    private fun showAlert(error: Throwable) {
+        val message = ApiError(error).message
+        val alert = Alert("Oops!", message, "Ok")
         _showAlert.value = alert
         _showAlert.call()
     }
