@@ -50,7 +50,7 @@ class HomeReactionsFragment: Fragment() {
 
         viewModel.updateJoinSessionSpinner.observe(this, Observer {
             if (it != null) updateSessionsSpinner(it)
-//            if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
+            if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
         })
 
         viewModel.updateReactionProgress.observe(this, Observer {
@@ -63,10 +63,19 @@ class HomeReactionsFragment: Fragment() {
             }
         })
 
+        viewModel.joinedSession.observe(this, Observer {
+            if (it != null) {
+                (activity as? HomeActivity)?.showSimpleDialog(it.alert)
+                reaction_buttons.visibility = View.VISIBLE
+                join_session_fields.visibility = View.GONE
+            }
+        })
+
         viewModel.hideJoinSessionFields.observe(this, Observer {
-            shouldHideJoinSessionFields()
+            join_session_fields.visibility = View.GONE
+            session_code_field.setText("")
+            session_code_field.clearFocus()
             reaction_buttons.visibility = View.VISIBLE
-            if (home_join_session_button.isAnimating) home_join_session_button.revertAnimation()
             if (home_create_session_button.isAnimating) home_create_session_button.revertAnimation()
         })
     }
@@ -85,12 +94,6 @@ class HomeReactionsFragment: Fragment() {
             params.matchConstraintPercentWidth = 0.7f
         }
         buttons_layout.requestLayout()
-    }
-
-    private fun shouldHideJoinSessionFields() {
-        join_session_fields.visibility = View.GONE
-        session_code_field.setText("")
-        session_code_field.clearFocus()
     }
 
     private fun updateSessionsSpinner(sessions: List<String>) {

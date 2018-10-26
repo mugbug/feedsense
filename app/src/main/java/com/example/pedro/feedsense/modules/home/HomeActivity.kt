@@ -140,7 +140,7 @@ class HomeActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         active_sessions_spinner.visibility = View.VISIBLE
         home_create_session_button.visibility = View.GONE
         home_join_session_button.visibility = View.VISIBLE
-//        if (!home_join_session_button.isAnimating) home_join_session_button.startAnimation()
+        home_join_session_button.startAnimation()
         viewModel.updateJoinSessionSpinner()
     }
 
