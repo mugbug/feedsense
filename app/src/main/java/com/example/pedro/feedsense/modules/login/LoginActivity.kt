@@ -10,6 +10,7 @@ import org.koin.android.architecture.ext.viewModel
 import android.view.View
 import android.content.Intent
 import android.content.SharedPreferences
+import android.widget.ArrayAdapter
 import com.squareup.picasso.Picasso
 import androidx.lifecycle.Observer
 import com.example.pedro.feedsense.PreferenceHelper.defaultPrefs
@@ -43,6 +44,14 @@ class LoginActivity: BaseActivity() {
         setupObservers()
     }
 
+    override fun onBackPressed() {
+        if (login_button.visibility == View.VISIBLE) {
+            super.onBackPressed()
+            return
+        }
+        showLoginFields()
+    }
+
     private fun setupObservers() {
         viewModel.showHomeScreenForGuest.observe(this, Observer {
             if (it != null) showHomeScreenForGuest(it)
@@ -50,6 +59,13 @@ class LoginActivity: BaseActivity() {
 
         viewModel.showHomeScreenForUser.observe(this, Observer {
             if (it != null) showHomeScreenForUser(it)
+        })
+
+        viewModel.updateJoinAsGuestSessionSpinner.observe(this, Observer {
+            if (it != null) {
+                updateSessionsSpinner(it)
+                if (join_session_button.isAnimating) join_session_button.revertAnimation()
+            }
         })
 
         viewModel.stopLoading.observe(this, Observer {
@@ -96,7 +112,7 @@ class LoginActivity: BaseActivity() {
     fun didTapJoinAsGuest(view: View) {
         hideKeyboard(this)
         join_session_button.startAnimation()
-        val sessionId = login_session_id_field.text.toString()
+        val sessionId = login_session_id_spinner.selectedItem.toString()
         viewModel.joinSession(sessionId)
     }
 
@@ -124,29 +140,29 @@ class LoginActivity: BaseActivity() {
         showRegisterFields()
     }
 
-    override fun onBackPressed() {
-        if (login_button.visibility == View.VISIBLE) {
-            super.onBackPressed()
-            return
-        }
-        showLoginFields()
-    }
-
     fun didTapBackToLogin(view: View) {
         showLoginFields()
     }
 
     fun didTapWannaJoinAsGuest(view: View) {
         showJoinAsGuestFields()
+        join_session_button.startAnimation()
+        viewModel.fetchSessionsForSpinner()
+    }
+
+    private fun updateSessionsSpinner(sessions: List<String>) {
+        val adapter = ArrayAdapter<String>(this, R.layout.spinner_item, sessions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        login_session_id_spinner.adapter = adapter
     }
 
     fun showJoinAsGuestFields() {
-        login_fields_title.text = "Entrar como visitante"
+        login_fields_title.text = "Entrar como visitante (escolha uma sessão)"
         login_fields_title.visibility = View.VISIBLE
         email_field.visibility = View.GONE
         password_field.visibility = View.GONE
         password_check_field.visibility = View.GONE
-        login_session_id_field.visibility = View.VISIBLE
+        login_session_id_spinner.visibility = View.VISIBLE
         login_button.visibility = View.GONE
         alt_buttons_layout.visibility = View.VISIBLE
         login_register_button_layout.visibility = View.GONE
@@ -161,7 +177,7 @@ class LoginActivity: BaseActivity() {
         email_field.visibility = View.VISIBLE
         password_field.visibility = View.VISIBLE
         password_check_field.visibility = View.VISIBLE
-        login_session_id_field.visibility = View.GONE
+        login_session_id_spinner.visibility = View.GONE
         login_button.visibility = View.GONE
         alt_buttons_layout.visibility = View.VISIBLE
         login_register_button_layout.visibility = View.VISIBLE
@@ -175,7 +191,7 @@ class LoginActivity: BaseActivity() {
         email_field.visibility = View.VISIBLE
         password_field.visibility = View.VISIBLE
         password_check_field.visibility = View.GONE
-        login_session_id_field.visibility = View.GONE
+        login_session_id_spinner.visibility = View.GONE
         login_button.visibility = View.VISIBLE
         alt_buttons_layout.visibility = View.GONE
         login_register_button_layout.visibility = View.GONE
