@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.pedro.feedsense.SingleLiveEvent
 import com.example.pedro.feedsense.models.Alert
+import com.example.pedro.feedsense.models.SessionModel
 import com.example.pedro.feedsense.models.User
 import com.example.pedro.feedsense.repository.ApiError
 import com.example.pedro.feedsense.repository.NetworkServices
@@ -30,6 +31,27 @@ class LoginViewModel(private val service: NetworkServices): ViewModel() {
     private val _showAlert = SingleLiveEvent<Alert>()
     val showAlert: LiveData<Alert>
         get() = _showAlert
+
+    private val _updateJoinAsGuestSessionSpinner = SingleLiveEvent<List<String>>()
+    val updateJoinAsGuestSessionSpinner: LiveData<List<String>>
+        get() = _updateJoinAsGuestSessionSpinner
+
+    fun fetchSessionsForSpinner() {
+        disposable = service.feedsenseService()
+                .fetchActiveSessions()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { activeSessions -> updateSessionSpinner(activeSessions) },
+                        { error -> showErrorAlert(error) }
+                )
+    }
+
+    private fun updateSessionSpinner(activeSessions: List<SessionModel>) {
+        val formattedSessions = activeSessions.map { it.pin }
+        _updateJoinAsGuestSessionSpinner.value = formattedSessions
+        _updateJoinAsGuestSessionSpinner.call()
+    }
 
     fun joinSession(sessionId: String) {
 

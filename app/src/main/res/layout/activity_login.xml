@@ -102,14 +102,15 @@
                             android:inputType="textPassword"
                             android:visibility="gone" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/login_session_id_field"
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/login_session_id_spinner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="10dp"
+                            android:popupBackground="@color/darkGray_212121"
                             android:textColor="@color/white"
-                            android:hint="digite o código da sessão"
-                            android:visibility="gone" />
+                            android:layout_marginBottom="15dp"
+                            android:visibility="gone"/>
 
                         <LinearLayout
                             android:id="@+id/alt_buttons_layout"

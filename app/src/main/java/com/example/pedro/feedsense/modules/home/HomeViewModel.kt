@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit
 
 sealed class HomeState {
     class ReactedToSession(val toastMessage: String, val reactionPercentage: ReactionPercentage?): HomeState()
+    class JoinedSession(val alert: Alert): HomeState()
 }
 
 open class HomeViewModel(private val service: NetworkServices): ViewModel() {
@@ -59,6 +60,10 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     val updateReactionProgress: LiveData<HomeState.ReactedToSession?>
         get() = _updateReactionProgress
 
+    private val _joinedSession = SingleLiveEvent<HomeState.JoinedSession>()
+    val joinedSession: LiveData<HomeState.JoinedSession>
+        get() = _joinedSession
+
     init {
         _currentSession.value = "-"
     }
@@ -82,9 +87,8 @@ open class HomeViewModel(private val service: NetworkServices): ViewModel() {
     private fun treatJoinSessionWithSuccess(sessionId: String) {
         _currentSession.value = sessionId
         val alert = Alert("Sucesso!", "Você se conectou à sessão $sessionId", "Ok")
-        _showAlert.value = alert
-        _showAlert.call()
-        _hideJoinSessionFields.call()
+        _joinedSession.value = HomeState.JoinedSession(alert)
+        _joinedSession.call()
     }
 
     fun createSession(sessionId: String) {
